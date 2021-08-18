@@ -19,6 +19,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
+
 class HomeController extends Controller
 {
     private $response;
@@ -30,67 +33,79 @@ class HomeController extends Controller
 
     public function index()
     {
-        // SEO Meta
-        SEOMeta(setting('app_name'), setting('home_description'));
+        if(env('COMING_SOON') === TRUE){
+            return view('frontend.home.comingsoon');
+        }else{
+            // SEO Meta
+            SEOMeta(setting('app_name'), setting('home_description'));
 
-        $popular_cities = City::query()
-            ->with('country')
-            ->withCount(['places' => function ($query) {
-                $query->where('status', Place::STATUS_ACTIVE);
-            }])
-            ->where('status', Country::STATUS_ACTIVE)
-            ->limit(12)
-            ->get();
+            $popular_cities = City::query()
+                ->with('country')
+                ->withCount(['places' => function ($query) {
+                    $query->where('status', Place::STATUS_ACTIVE);
+                }])
+                ->where('status', Country::STATUS_ACTIVE)
+                ->limit(12)
+                ->get();
 
-        $blog_posts = Post::query()
-            ->with(['categories' => function ($query) {
-                $query->where('status', Category::STATUS_ACTIVE)
-                    ->select('id', 'name', 'slug');
-            }])
-            ->where('type', Post::TYPE_BLOG)
-            ->where('status', Post::STATUS_ACTIVE)
-            ->limit(3)
-            ->orderBy('created_at', 'desc')
-            ->get(['id', 'category', 'slug', 'thumb']);
-
-
-        $categories = Category::query()
-            ->where('categories.status', Category::STATUS_ACTIVE)
-            ->where('categories.type', Category::TYPE_PLACE)
-            ->join('places', 'places.category', 'like', DB::raw("CONCAT('%', categories.id, '%')"))
-            ->select('categories.id as id', 'categories.name as name', 'categories.priority as priority', 'categories.slug as slug', 'categories.color_code as color_code', 'categories.icon_map_marker as icon_map_marker', DB::raw("count(places.category) as place_count"))
-            ->groupBy('categories.id')
-            ->orderBy('categories.priority')
-            ->limit(10)
-            ->get();
+            $blog_posts = Post::query()
+                ->with(['categories' => function ($query) {
+                    $query->where('status', Category::STATUS_ACTIVE)
+                        ->select('id', 'name', 'slug');
+                }])
+                ->where('type', Post::TYPE_BLOG)
+                ->where('status', Post::STATUS_ACTIVE)
+                ->limit(3)
+                ->orderBy('created_at', 'desc')
+                ->get(['id', 'category', 'slug', 'thumb']);
 
 
-        $trending_places = Place::query()
-            ->with('categories')
-            ->with('city')
-            ->with('place_types')
-            ->withCount('reviews')
-            ->with('avgReview')
-            ->withCount('wishList')
-            ->where('status', Place::STATUS_ACTIVE)
-            ->limit(10)
-            ->get();
+            $categories = Category::query()
+                ->where('categories.status', Category::STATUS_ACTIVE)
+                ->where('categories.type', Category::TYPE_PLACE)
+                ->join('places', 'places.category', 'like', DB::raw("CONCAT('%', categories.id, '%')"))
+                ->select('categories.id as id', 'categories.name as name', 'categories.priority as priority', 'categories.slug as slug', 'categories.color_code as color_code', 'categories.icon_map_marker as icon_map_marker', DB::raw("count(places.category) as place_count"))
+                ->groupBy('categories.id')
+                ->orderBy('categories.priority')
+                ->limit(10)
+                ->get();
 
-        $testimonials = Testimonial::query()
-            ->where('status', Testimonial::STATUS_ACTIVE)
-            ->get();
 
-//        return $trending_places;
+            $trending_places = Place::query()
+                ->with('categories')
+                ->with('city')
+                ->with('place_types')
+                ->withCount('reviews')
+                ->with('avgReview')
+                ->withCount('wishList')
+                ->where('status', Place::STATUS_ACTIVE)
+                ->limit(10)
+                ->get();
 
-        $template = setting('template', '01');
+            $testimonials = Testimonial::query()
+                ->where('status', Testimonial::STATUS_ACTIVE)
+                ->get();
 
-        return view("frontend.home.home_{$template}", [
-            'popular_cities' => $popular_cities,
-            'blog_posts' => $blog_posts,
-            'categories' => $categories,
-            'trending_places' => $trending_places,
-            'testimonials' => $testimonials
-        ]);
+            //        return $trending_places;
+
+            $template = setting('template', '01');
+
+            /*$httpClient = new Client(['base_uri' => env('BACKEND_PARIWISATA')]);
+            $response = $httpClient->request('GET', 'tourism-info');
+
+            $test = $response->getBody()->getContents();
+            $output = json_decode($test,true);
+            dd($output);*/
+
+            return view("frontend.home.home_{$template}", [
+                'popular_cities' => $popular_cities,
+                'blog_posts' => $blog_posts,
+                'categories' => $categories,
+                'trending_places' => $trending_places,
+                'testimonials' => $testimonials
+            ]);
+        }
+        
     }
 
     public function pageFaqs()
