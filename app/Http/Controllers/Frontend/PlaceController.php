@@ -17,6 +17,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ConnectException;
+use Illuminate\Support\Facades\Log;
+
 class PlaceController extends Controller
 {
     private $place;
@@ -38,7 +42,7 @@ class PlaceController extends Controller
 
     public function detail($slug)
     {
-        $place = $this->place->getBySlug($slug);
+       /* $place = $this->place->getBySlug($slug);
         if (!$place) abort(404);
 
         $city = City::query()
@@ -78,7 +82,7 @@ class PlaceController extends Controller
         foreach ($place->category as $cat_id):
             $similar_places->where('category', 'like', "%{$cat_id}%");
         endforeach;
-        $similar_places = $similar_places->limit(4)->get();
+        $similar_places = $similar_places->limit(4)->get();*/
 
 //        return $categories;
 
@@ -98,25 +102,30 @@ class PlaceController extends Controller
 //        } else {
 //            echo "Close";
 //        }
+        try {
+            $httpClient = new Client(['base_uri' => env('BACKEND_PARIWISATA')]);
+            $response = $httpClient->request('GET', "tourism-info/$slug");
+            $codeResponse = $response->getStatusCode();
+            $showTourism = json_decode($response->getBody());
+        } catch (ConnectException $e) {
+            $codeResponse = $e->getCode();
+            $errorInfoResponse = 'Connection Exception | Conncetion Refused';
+            Log::notice($e->getMessage());
+
+        } catch (Exception $e) {
+            report($e);
+            return abort(500);
+        }
 
 
         // SEO Meta
-        $title = $place->seo_title ? $place->seo_title : $place->name;
-        $description = $place->seo_description ? $place->seo_description : Str::limit($place->description, 165);
-        SEOMeta($title, $description, getImageUrl($place->thumb));
+        $title = $showTourism->name;
+        $description = Str::limit($showTourism->overview, 165);
+        SEOMeta($title, $description, $showTourism->url_cover_image);
 
         $template = setting('template', '01');
 
-        return view("frontend.place.place_detail_{$template}", [
-            'place' => $place,
-            'city' => $city,
-            'amenities' => $amenities,
-            'categories' => $categories,
-            'place_types' => $place_types,
-            'reviews' => $reviews,
-            'review_score_avg' => $review_score_avg,
-            'similar_places' => $similar_places
-        ]);
+        return view("frontend.place.place_detail_{$template}", compact('showTourism'));
     }
 
     public function pageAddNew(Request $request, $id = null)

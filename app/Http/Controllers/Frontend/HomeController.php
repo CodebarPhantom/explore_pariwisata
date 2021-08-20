@@ -20,7 +20,8 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\ConnectException;
+use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
 {
@@ -39,7 +40,7 @@ class HomeController extends Controller
             // SEO Meta
             SEOMeta(setting('app_name'), setting('home_description'));
 
-            $popular_cities = City::query()
+            /*$popular_cities = City::query()
                 ->with('country')
                 ->withCount(['places' => function ($query) {
                     $query->where('status', Place::STATUS_ACTIVE);
@@ -84,26 +85,32 @@ class HomeController extends Controller
 
             $testimonials = Testimonial::query()
                 ->where('status', Testimonial::STATUS_ACTIVE)
-                ->get();
+                ->get();*/
 
             //        return $trending_places;
 
             $template = setting('template', '01');
 
-            /*$httpClient = new Client(['base_uri' => env('BACKEND_PARIWISATA')]);
-            $response = $httpClient->request('GET', 'tourism-info');
+            $codeResponse ="";
+            $dataTourismInfos = "";
+            $errorInfoResponse = "";
 
-            $test = $response->getBody()->getContents();
-            $output = json_decode($test,true);
-            dd($output);*/
+            try {
+                $httpClient = new Client(['base_uri' => env('BACKEND_PARIWISATA')]);
+                $response = $httpClient->request('GET', 'tourism-info');
+                $codeResponse = $response->getStatusCode();
+                $dataTourismInfos = json_decode($response->getBody());
+            } catch (ConnectException $e) {
+                $codeResponse = $e->getCode();
+                $errorInfoResponse = 'Connection Exception | Conncetion Refused';
+                Log::notice($e->getMessage());
 
-            return view("frontend.home.home_{$template}", [
-                'popular_cities' => $popular_cities,
-                'blog_posts' => $blog_posts,
-                'categories' => $categories,
-                'trending_places' => $trending_places,
-                'testimonials' => $testimonials
-            ]);
+            } catch (Exception $e) {
+                report($e);
+                return abort(500);
+            }
+
+            return view("frontend.home.home_{$template}", compact('codeResponse','dataTourismInfos','errorInfoResponse'));
         }
         
     }

@@ -44,25 +44,25 @@ $router->group([
 
     $router->get('/place/{slug}', 'PlaceController@detail')->name('place_detail');
     $router->get('/new-place', 'PlaceController@pageAddNew')->name('place_addnew');
-    $router->get('/edit-place/{id}', 'PlaceController@pageAddNew')->name('place_edit')->middleware('auth');
-    $router->post('/place', 'PlaceController@create')->name('place_create')->middleware('auth');
-    $router->put('/place', 'PlaceController@update')->name('place_update')->middleware('auth');
+    $router->get('/edit-place/{id}', 'PlaceController@pageAddNew')->name('place_edit')->middleware(['auth']);
+    $router->post('/place', 'PlaceController@create')->name('place_create')->middleware(['auth']);
+    $router->put('/place', 'PlaceController@update')->name('place_update')->middleware(['auth']);
     $router->get('/places/filter', 'PlaceController@getListFilter')->name('place_get_list_filter');
 
-    $router->post('/review', 'ReviewController@create')->name('review_create')->middleware('auth');
-    $router->post('/wishlist', 'UserController@addWishlist')->name('add_wishlist')->middleware('auth');
-    $router->delete('/wishlist', 'UserController@removeWishlist')->name('remove_wishlist')->middleware('auth');
+    $router->post('/review', 'ReviewController@create')->name('review_create')->middleware(['auth']);
+    $router->post('/wishlist', 'UserController@addWishlist')->name('add_wishlist')->middleware(['auth']);
+    $router->delete('/wishlist', 'UserController@removeWishlist')->name('remove_wishlist')->middleware(['auth']);
 
-    $router->get('/user/profile', 'UserController@pageProfile')->name('user_profile')->middleware('auth');
-    $router->put('/user/profile', 'UserController@updateProfile')->name('user_profile_update')->middleware('auth');
-    $router->put('/user/profile/password', 'UserController@updatePassword')->name('user_password_update')->middleware('auth');
+    $router->get('/user/profile', 'UserController@pageProfile')->name('user_profile')->middleware(['auth']);
+    $router->put('/user/profile', 'UserController@updateProfile')->name('user_profile_update')->middleware(['auth']);
+    $router->put('/user/profile/password', 'UserController@updatePassword')->name('user_password_update')->middleware(['auth']);
     $router->get('/user/reset-password', 'UserController@pageResetPassword')->name('user_reset_password');
     $router->put('/user/reset-password', 'ResetPasswordController@reset')->name('user_update_password');
 
-    $router->get('/user/my-place', 'UserController@pageMyPlace')->name('user_my_place')->middleware('auth');
-    $router->delete('/user/my-place', 'UserController@deleteMyPlace')->name('user_my_place_delete')->middleware('auth');
+    $router->get('/user/my-place', 'UserController@pageMyPlace')->name('user_my_place')->middleware(['auth']);
+    $router->delete('/user/my-place', 'UserController@deleteMyPlace')->name('user_my_place_delete')->middleware(['auth']);
 
-    $router->get('/user/wishlist', 'UserController@pageWishList')->name('user_wishlist')->middleware('auth');
+    $router->get('/user/wishlist', 'UserController@pageWishList')->name('user_wishlist')->middleware(['auth']);
 
     $router->post('/bookings', 'BookingController@booking')->name('booking_submit');
 

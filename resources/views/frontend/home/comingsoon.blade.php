@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html>
+<head>
+  <title>Ulinyu.id || Explore Karawang</title>
+</head>
 <style>
 body, html {
   height: 100%;

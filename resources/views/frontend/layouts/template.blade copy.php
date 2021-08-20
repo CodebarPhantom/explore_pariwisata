@@ -201,7 +201,35 @@
 
                 <div class="col-md-6 col-4">
                     <div class="right-header align-right">
+                        <div class="right-header__languages">
+                            <a href="#">
+                                <img src="{{flagImageUrl(\Illuminate\Support\Facades\App::getLocale())}}">
+                                @if(count($languages) > 1)
+                                    <i class="las la-angle-down la-12-black"></i>
+                                @endif
+                            </a>
+                            @if(count($languages) > 1)
+                                <ul>
+                                    @foreach($languages as $language)
+                                        @if(\Illuminate\Support\Facades\App::getLocale() !== $language->code)
+                                            <li><a href="{{route('change_language', $language->code)}}" title="{{$language->name}}"><img src="{{flagImageUrl($language->code)}}">{{$language->name}}</a></li>
+                                        @endif
+                                    @endforeach
+                                </ul>
+                            @endif
+                        </div>
 
+                        <div class="right-header__destinations">
+                            <a title="Destinations" href="#">
+                                {{__('Destinations')}}
+                                <i class="la la-angle-down la-12"></i>
+                            </a>
+                            <ul>
+                                @foreach($destinations as $city)
+                                    <li><a href="{{route('city_detail', $city->slug)}}" title="{{$city->name}}">{{$city->name}}</a></li>
+                                @endforeach
+                            </ul>
+                        </div><!-- .right-header__destinations -->
                         @guest
                             <div class="right-header__login">
                                 <a title="Login" class="open-login" href="#">{{__('Login')}}</a>
@@ -223,7 +251,9 @@
 
                                     <form class="form-log form-content" id="login" action="{{route('login')}}" method="POST">
                                         @csrf
-                                       
+                                        <p class="choose-more">{{__('Continue with')}} <a title="Facebook" class="fb" href="{{route('login_social', 'facebook')}}">Facebook</a> or <a title="Google" class="gg" href="{{route('login_social', 'google')}}">Google</a></p>
+                                        <p class="choose-or"><span>{{__('Or')}}</span></p>
+
                                         <small class="form-text text-danger golo-d-none" id="login_error">error!</small>
                                         <div class="field-input">
                                             <input type="text" id="email" name="email" placeholder="Email Address" required>
@@ -239,6 +269,8 @@
 
                                     <form class="form-sign form-content" id="register" action="{{route('register')}}" method="post">
                                         @csrf
+                                        <p class="choose-more">{{__('Continue with')}} <a title="Facebook" class="fb" href="{{route('login_social', 'facebook')}}">Facebook</a> or <a title="Google" class="gg" href="{{route('login_social', 'google')}}">Google</a></p>
+                                        <p class="choose-or"><span>{{__('Or')}}</span></p>
 
                                         <small class="form-text text-danger golo-d-none" id="register_error">error!</small>
                                         <div class="field-input">
@@ -252,6 +284,17 @@
                                         </div>
                                         <div class="field-input">
                                             <input type="password" id="register_password_confirmation" name="password_confirmation" placeholder="Confirm Password" required>
+                                        </div>
+                                        <div class="field-check">
+                                            <label for="accept">
+                                                <input type="checkbox" id="accept" checked required>
+                                                Accept the <a title="Terms" href="#">Terms</a> and <a title="Privacy Policy" href="#">Privacy Policy</a>
+                                                <span class="checkmark">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="8" height="6" viewBox="0 0 8 6">
+                                                    <path fill="#FFF" fill-rule="nonzero" d="M2.166 4.444L.768 3.047 0 3.815 1.844 5.66l.002-.002.337.337L7.389.788 6.605.005z"/>
+                                                </svg>
+                                            </span>
+                                            </label>
                                         </div>
                                         <button type="submit" class="gl-button btn button w-100" id="submit_register">{{__('Sign Up')}}</button>
                                     </form>
@@ -301,6 +344,12 @@
                                 <i class="la la-search la-24"></i>
                             </a>
                         </div>
+                        <div class="right-header__button btn">
+                            <a title="Add place" href="{{route('place_addnew')}}">
+                                <i class="la la-plus la-24"></i>
+                                <span>{{__('Add place')}}</span>
+                            </a>
+                        </div><!-- .right-header__button -->
                     </div><!-- .right-header -->
                 </div><!-- .col-md-6 -->
             </div><!-- .row -->
