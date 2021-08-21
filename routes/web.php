@@ -60,6 +60,8 @@ $router->group([
     $router->put('/user/reset-password', 'ResetPasswordController@reset')->name('user_update_password');
 
     $router->get('/user/my-place', 'UserController@pageMyPlace')->name('user_my_place')->middleware(['auth']);
+    $router->get('/user/my-booking', 'UserController@pageMyBooking')->name('user_my_booking')->middleware(['auth']);
+
     $router->delete('/user/my-place', 'UserController@deleteMyPlace')->name('user_my_place_delete')->middleware(['auth']);
 
     $router->get('/user/wishlist', 'UserController@pageWishList')->name('user_wishlist')->middleware(['auth']);

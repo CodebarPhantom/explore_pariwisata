@@ -975,7 +975,8 @@
         // Datepicker
         $('.datepicker').each(function () {
             $(this).datepicker({
-                uiLibrary: 'bootstrap4'
+                uiLibrary: 'bootstrap4',
+                autoclose: false
             });
         });
 
@@ -992,10 +993,10 @@
             e.preventDefault();
             var text = [];
             if ($('.number_adults').val() > 0) {
-                text.push('Adults ' + $('.number_adults').val());
+                text.push('Dewasa ' + $('.number_adults').val());
             }
             if ($('.number_childrens').val() > 0) {
-                text.push(' Childrens ' + $('.number_childrens').val());
+                text.push(' Anak ' + $('.number_childrens').val());
             }
             $(this).parents('.field-guest').find('input[type="text"]').val(text.toString());
         });

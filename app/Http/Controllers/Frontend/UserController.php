@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Commons\Response;
 use App\Http\Controllers\Controller;
+use App\Models\Booking;
 use App\Models\Category;
 use App\Models\City;
 use App\Models\Place;
@@ -13,6 +14,7 @@ use App\Models\Wishlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+
 
 class UserController extends Controller
 {
@@ -121,6 +123,29 @@ class UserController extends Controller
             'categories' => $categories,
             'filter' => $filter
         ]);
+    }
+
+    public function pageMyBooking(Request $request)
+    {
+        $filter = [
+            'tourism' => $request->tourism_id,
+            'keyword' => $request->keyword,
+        ];
+
+        $myBookings = Booking::myBooking()->with(['detail'])
+        ->when($filter['tourism'], function ($query, $filter) {
+            $query->where('tourism_id', '=', $filter['tourism']);
+        })
+        ->when($filter['keyword'], function ($query,$filter) {
+            $query->where('name', 'like', '%' . $filter['keyword'] . '%');
+        })
+        ->orderBy('created_at','desc')->paginate(10);
+
+        $app_name = setting('app_name', 'Ulinyu.id');
+        SEOMeta("My Bookings - {$app_name}");
+        return view('frontend.user.user_my_booking', compact('myBookings'));
+
+
     }
 
     public function pageWishList()

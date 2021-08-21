@@ -71,6 +71,7 @@ $router->group([
     $router->get('/users', 'UserController@getUserInfo')->middleware('auth:api');
     $router->get('/users/{user_id}/place', 'UserController@getPlaceByUser')->middleware('auth:api');
     $router->get('/users/{user_id}/place/wishlist', 'UserController@getPlaceByUser');
+    $router->get('/users/{user_id}/place/wishlist', 'UserController@getPlaceByUser');
     $router->post('/users/reset-password', 'Frontend\ResetPasswordController@sendMail')->name('user_forgot_password');
     $router->post('/users/login', 'UserController@login');
 
@@ -80,6 +81,11 @@ $router->group([
     $router->post('/places/wishlist', 'PlaceController@addPlaceToWishlist')->middleware('auth:api');
     $router->delete('/places/wishlist', 'PlaceController@removePlaceFromWishlist')->middleware('auth:api');
 
+
+    /**
+     * Bookings
+     */
+    $router->post('/booking/code-unique', 'BookingController@getByCodeUnique');
 
 
 });

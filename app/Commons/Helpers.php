@@ -58,6 +58,13 @@ const STATUS = [
     4 => "Deleted",
 ];
 
+const PAYMENTSTATUS = [
+    0=>['text'=>'Void', 'bs_color'=>'text-danger'],
+    1=>['text'=>'Lunas', 'bs_color'=>'text-success'],
+    2=>['text'=>'Pending', 'bs_color'=>'text-warning'],
+    3=>['text'=>'Expired', 'bs_color'=>'text-danger'],
+];
+
 function isRoute($name = '')
 {
     if (!$name || (is_array($name) && !count($name)) || !Request::route()) {

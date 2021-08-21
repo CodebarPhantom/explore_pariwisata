@@ -364,19 +364,23 @@ const PRICE_RANGE = {
                 event.preventDefault();
                 let $form = $(this);
                 let formData = getFormData($form);
-
-                if (formData.numbber_of_adult == "0") {
-                    alert("Please enter numbber of adult");
+                if ($(this).find('input[name="qty[0]"]').val() == "0") {
+                    alert("Pilih ticket terlebih dahulu");
                     return;
                 }
-                if (!formData.date) {
+
+               /* if (formData.numbber_of_adult == "0") {
+                    alert("Please enter numbber of adult");
+                    return;
+                }/*
+                /*if (!formData.date) {
                     alert("Please select date");
                     return;
                 }
                 if (!formData.time) {
                     alert("Please select time");
                     return;
-                }
+                }*/
 
                 GL_BOOKING.ajaxBooking(formData)
             });

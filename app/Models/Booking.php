@@ -11,7 +11,7 @@ class Booking extends Model
 
     protected $fillable = [
         'user_id', 'place_id', 'numbber_of_adult', 'numbber_of_children', 'date', 'time',
-        'name', 'email', 'phone_number', 'message', 'type', 'status'
+        'name', 'email', 'phone_number', 'message', 'type', 'status','tourism_info_id','tourism_name','code_unique','visit_time'
     ];
 
     protected $hidden = [];
@@ -22,7 +22,8 @@ class Booking extends Model
         'numbber_of_adult' => 'integer',
         'numbber_of_children' => 'integer',
         'type' => 'integer',
-        'status' => 'integer'
+        'status' => 'integer',
+        'created_at'=>'datetime'
     ];
 
     const TYPE_BOOKING_FORM = 1;
@@ -35,6 +36,8 @@ class Booking extends Model
     const STATUS_ACTIVE = 1;
     const STATUS_PENDING = 2;
 
+    protected $appends  = ['status_name','status_bs_color'];
+
     public function user()
     {
         return $this->hasOne(User::class, 'id', 'user_id');
@@ -45,5 +48,24 @@ class Booking extends Model
         return $this->hasOne(Place::class, 'id', 'place_id');
     }
 
+    public function detail()
+    {
+        return $this->hasMany(BookingDetail::class, 'booking_id', 'id');
+    }
+
+    public function scopeMyBooking($query)
+    {
+        return $this->where('user_id', Auth()->user()->id);        
+    }
+
+    public function getStatusNameAttribute()
+    {
+        return PAYMENTSTATUS[$this->status]['text'];
+    }
+
+    public function getStatusBsColorAttribute()
+    {
+        return PAYMENTSTATUS[$this->status]['bs_color'];
+    }
 
 }

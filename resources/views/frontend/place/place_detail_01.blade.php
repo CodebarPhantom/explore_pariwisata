@@ -75,7 +75,7 @@
                             </div><!-- .place__box -->
 
                             <div class="place__box place__box-overview">
-                                <h3>{{__('Overview')}}</h3>
+                                <h3>{{__('Gambaran Singkat')}}</h3>
                                 <div class="place__desc">
                                     @php
                                         echo $showTourism->overview;
@@ -85,7 +85,7 @@
                             </div>
                             <div class="place__box place__box-map">
                                 <h3 class="place__title--additional">
-                                    {{__('Location & Maps')}}
+                                    {{__('Lokasi & Maps')}}
                                 </h3>
                                 <div class="maps">
                                     <div id="golo-place-map"></div>
@@ -103,7 +103,7 @@
                             </div><!-- .place__box -->
                             <div class="place__box place__box-open">
                                 <h3 class="place__title--additional">
-                                    {{__('Opening Hours')}}
+                                    {{__('Jam Buka')}}
                                 </h3>
                                 @php
                                     $operationalTourisms = json_decode($showTourism->opening_hour);
@@ -120,7 +120,7 @@
                                 </table>
                             </div><!-- .place__box -->     
                             <div class="place__box">
-                                <h3>{{__('Contact Info')}}</h3>
+                                <h3>{{__('Info Kontak')}}</h3>
                                 <ul class="place__contact">
                                     <li>
                                         <i class="la la-phone"></i>
@@ -143,82 +143,99 @@
                     <div class="col-lg-4">
                         <div class="sidebar sidebar--shop sidebar--border">
                             <div class="widget-reservation-mini">                                
-                                <h3>{{__('Make a reservation')}}</h3>
+                                <h3>{{__('Booking Sekarang Yuk..')}}</h3>
                                 <a href="#" class="open-wg btn">{{__('Book now')}}</a>
-                                <h3>{{__('Send me a message')}}</h3>
-                                <a href="#" class="open-wg btn">{{__('Send')}}</a>
                             </div>
-                                <aside class="widget widget-shadow widget-reservation">
-                                    <h3>{{__('Make a reservation')}}</h3>
-                                    <form action="#" method="POST" class="form-underline" id="booking_form">
-                                        @csrf
-                                        <div class="field-select has-sub field-guest">
-                                            <span class="sl-icon"><i class="la la-user-friends"></i></span>
-                                            <input type="text" placeholder="Guest *" readonly>
-                                            <i class="la la-angle-down"></i>
-                                            <div class="field-sub">
-                                                <ul>
-                                                    <li>
-                                                        <span>{{__('Adults')}}</span>
-                                                        <div class="shop-details__quantity">
-                                                        <span class="minus">
-                                                            <i class="la la-minus"></i>
-                                                        </span>
-                                                            <input type="number" name="numbber_of_adult" value="0" class="qty number_adults">
-                                                            <span class="plus">
-                                                            <i class="la la-plus"></i>
-                                                        </span>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <span>{{__('Childrens')}}</span>
-                                                        <div class="shop-details__quantity">
-                                                        <span class="minus">
-                                                            <i class="la la-minus"></i>
-                                                        </span>
-                                                            <input type="number" name="numbber_of_children" value="0" class="qty number_childrens">
-                                                            <span class="plus">
-                                                            <i class="la la-plus"></i>
-                                                        </span>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                            <aside class="widget widget-shadow widget-reservation">
+                                <h3>{{__('Booking Sekarang Yuk..')}}</h3>
+                                <form action="#" method="POST" class="form-underline" id="booking_form">
+                                    @csrf
+                                    <div class="field-select has-sub field-guest">
+                                        <span class="sl-icon"><i class="la la-user-friends"></i></span>
+                                        <input type="text" placeholder="Pengunjung" readonly>
+                                        <i class="la la-angle-down"></i>
+                                        <div class="field-sub">
+                                            <ul>
+                                                <li>
+                                                    <span>{{$showTourism->categories[0]->name.' - '.number_format($showTourism->categories[0]->price) }} </span>
+                                                    <div class="shop-details__quantity">
+                                                    <span class="minus">
+                                                        <i class="la la-minus"></i>
+                                                    </span>
+                                                        <input type="hidden" name="tourism_info_category_id[0]" value="{{ $showTourism->categories[0]->id }}">
+                                                        <input type="hidden" name="category_name[0]" value="{{$showTourism->categories[0]->name}}">
+                                                        <input type="hidden" name="price[0]" value="{{$showTourism->categories[0]->price}}">
+                                                        <input type="number" name="qty[0]" value="0" class="qty number_adults">
+                                                        <span class="plus">
+                                                        <i class="la la-plus"></i>
+                                                    </span>
+                                                    </div>
+                                                </li>
+                                                @if (count($showTourism->categories) > 1)
+                                                <li>
+                                                    <span>{{$showTourism->categories[1]->name.' - '.number_format($showTourism->categories[1]->price)}}</span>
+                                                    <div class="shop-details__quantity">
+                                                    <span class="minus">
+                                                        <i class="la la-minus"></i>
+                                                    </span>
+                                                        <input type="hidden" name="tourism_info_category_id[1]" value="{{ $showTourism->categories[1]->id }}">
+                                                        <input type="hidden" name="category_name[1]" value="{{$showTourism->categories[1]->name}}">
+                                                        <input type="hidden" name="price[1]" value="{{$showTourism->categories[1]->price}}">
+                                                        <input type="number" name="qty[1]" value="0" class="qty number_childrens">
+                                                        <span class="plus">
+                                                        <i class="la la-plus"></i>
+                                                    </span>
+                                                    </div>
+                                                </li>
+                                                @endif
+                                                
+                                            </ul>
                                         </div>
-                                        <div class="field-select field-date">
-                                            <span class="sl-icon"><i class="la la-calendar-alt"></i></span>
-                                            <input type="text" name="date" placeholder="Date *" class="datepicker" autocomplete="off">
-                                            <i class="la la-angle-down"></i>
+                                    </div>
+                                    @guest
+                                        <div class="field-input">
+                                            <input type="text" id="name" name="name" placeholder="Nama Kamu *" required>
                                         </div>
+                                        <div class="field-input">
+                                            <input type="text" id="email" name="email" placeholder="Email Kamu *" required>
+                                        </div>
+                                        <div class="field-input">
+                                            <input type="text" id="phone_number" name="phone_number" placeholder="Nomor Telephone.">
+                                        </div>
+                                        <input type="hidden" name="type" value="{{ \App\Models\Booking::TYPE_CONTACT_FORM }}">
+                                    @else
+                                        <input type="hidden" name="type" value="{{ \App\Models\Booking::TYPE_BOOKING_FORM }}">
+                                    @endguest
+                                    <div class="field-input">
+                                        <textarea type="text" id="message" name="message" placeholder="Pesan Tambahan"></textarea>
+                                    </div>
+                                    <input type="hidden" name="tourism_info_id" value="{{$showTourism->id }}">
+                                    <input type="hidden" name="tourism_name" value="{{$showTourism->name }}">
 
-                                        <input type="hidden" name="type" value="{{-- \App\Models\Booking::TYPE_BOOKING_FORM --}}">
-                                        <input type="hidden" name="place_id" value="{{-- $place->id --}}">
-                                        @guest()
-                                            <button class="btn btn-login open-login">{{__('Send')}}</button>
-                                        @else
-                                            <button class="btn booking_submit_btn">{{__('Send')}}</button>
-                                        @endguest
-                                        <p class="note">{{__("You won't be charged yet")}}</p>
+                                        <button class="btn booking_submit_btn">{{__('Pembayaran')}}</button>
+                                    <!--<p class="note">{{__("You won't be charged yet")}}</p>-->
 
-                                        <div class="alert alert-success alert_booking booking_success">
-                                            <p>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-                                                    <path fill="#20D706" fill-rule="nonzero" d="M9.967 0C4.462 0 0 4.463 0 9.967c0 5.505 4.462 9.967 9.967 9.967 5.505 0 9.967-4.462 9.967-9.967C19.934 4.463 15.472 0 9.967 0zm0 18.065a8.098 8.098 0 1 1 0-16.196 8.098 8.098 0 0 1 8.098 8.098 8.098 8.098 0 0 1-8.098 8.098zm3.917-12.338a.868.868 0 0 0-1.208.337l-3.342 6.003-1.862-2.266c-.337-.388-.784-.589-1.207-.336-.424.253-.6.863-.325 1.255l2.59 3.152c.194.252.415.403.646.446l.002.003.024.002c.052.008.835.152 1.172-.45l3.836-6.891a.939.939 0 0 0-.326-1.255z"></path>
-                                                </svg>
-                                                {{__('You successfully created your booking.')}}
-                                            </p>
-                                        </div>
-                                        <div class="alert alert-error alert_booking booking_error">
-                                            <p>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-                                                    <path fill="#FF2D55" fill-rule="nonzero"
-                                                          d="M11.732 9.96l1.762-1.762a.622.622 0 0 0 0-.88l-.881-.882a.623.623 0 0 0-.881 0L9.97 8.198l-1.761-1.76a.624.624 0 0 0-.883-.002l-.88.881a.622.622 0 0 0 0 .882l1.762 1.76-1.758 1.759a.622.622 0 0 0 0 .88l.88.882a.623.623 0 0 0 .882 0l1.757-1.758 1.77 1.771a.623.623 0 0 0 .883 0l.88-.88a.624.624 0 0 0 0-.882l-1.77-1.771zM9.967 0C4.462 0 0 4.462 0 9.967c0 5.505 4.462 9.967 9.967 9.967 5.505 0 9.967-4.462 9.967-9.967C19.934 4.463 15.472 0 9.967 0zm0 18.065a8.098 8.098 0 1 1 8.098-8.098 8.098 8.098 0 0 1-8.098 8.098z"></path>
-                                                </svg>
-                                                {{__('An error occurred. Please try again.')}}
-                                            </p>
-                                        </div>
-                                    </form>
-                                </aside><!-- .widget-reservation -->
+                                    <div class="alert alert-success alert_booking booking_success">
+                                        <p>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                                                <path fill="#20D706" fill-rule="nonzero" d="M9.967 0C4.462 0 0 4.463 0 9.967c0 5.505 4.462 9.967 9.967 9.967 5.505 0 9.967-4.462 9.967-9.967C19.934 4.463 15.472 0 9.967 0zm0 18.065a8.098 8.098 0 1 1 0-16.196 8.098 8.098 0 0 1 8.098 8.098 8.098 8.098 0 0 1-8.098 8.098zm3.917-12.338a.868.868 0 0 0-1.208.337l-3.342 6.003-1.862-2.266c-.337-.388-.784-.589-1.207-.336-.424.253-.6.863-.325 1.255l2.59 3.152c.194.252.415.403.646.446l.002.003.024.002c.052.008.835.152 1.172-.45l3.836-6.891a.939.939 0 0 0-.326-1.255z"></path>
+                                            </svg>
+                                            {{__('You successfully created your booking.')}}
+                                        </p>
+                                    </div>
+                                    <div class="alert alert-error alert_booking booking_error">
+                                        <p>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                                                <path fill="#FF2D55" fill-rule="nonzero"
+                                                      d="M11.732 9.96l1.762-1.762a.622.622 0 0 0 0-.88l-.881-.882a.623.623 0 0 0-.881 0L9.97 8.198l-1.761-1.76a.624.624 0 0 0-.883-.002l-.88.881a.622.622 0 0 0 0 .882l1.762 1.76-1.758 1.759a.622.622 0 0 0 0 .88l.88.882a.623.623 0 0 0 .882 0l1.757-1.758 1.77 1.771a.623.623 0 0 0 .883 0l.88-.88a.624.624 0 0 0 0-.882l-1.77-1.771zM9.967 0C4.462 0 0 4.462 0 9.967c0 5.505 4.462 9.967 9.967 9.967 5.505 0 9.967-4.462 9.967-9.967C19.934 4.463 15.472 0 9.967 0zm0 18.065a8.098 8.098 0 1 1 8.098-8.098 8.098 8.098 0 0 1-8.098 8.098z"></path>
+                                            </svg>
+                                            {{__('An error occurred. Please try again.')}}
+                                        </p>
+                                    </div>
+                                </form>
+                            </aside><!-- .widget-reservation -->
+                            
+                                
                             
                         </div><!-- .sidebar -->
 
