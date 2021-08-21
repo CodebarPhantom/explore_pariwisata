@@ -315,7 +315,7 @@
                                                                         @foreach ($receipt->detail as $detail)
                                                                         <tr>
                                                                             <td>{{ $detail->category_name }}</td>
-                                                                            <td>{{ $detail->price.' X '.$detail->qty }}</td>
+                                                                            <td>{{ number_format($detail->price).' X '.$detail->qty }}</td>
 
                                                                             <td class="alignright">{{number_format($detail->price*$detail->qty) }}</td>
                                                                         </tr>  

@@ -102,7 +102,7 @@
   </style>
 
 </head>
-<body style="background-color: #D2C7BA;">
+<body style="background-color: #74b9ff;">
 
   <!-- start preheader -->
   <div class="preheader" style="display: none; max-width: 0; max-height: 0; overflow: hidden; font-size: 1px; line-height: 1px; color: #fff; opacity: 0;">
@@ -115,7 +115,7 @@
 
     <!-- start logo -->
     <tr>
-      <td align="center" bgcolor="#D2C7BA">
+      <td align="center" bgcolor="#74b9ff">
         <!--[if (gte mso 9)|(IE)]>
         <table align="center" border="0" cellpadding="0" cellspacing="0" width="600">
         <tr>
@@ -124,8 +124,8 @@
         <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
           <tr>
             <td align="center" valign="top" style="padding: 36px 24px;">
-              <a href="https://sendgrid.com" target="_blank" style="display: inline-block;">
-                <img src="./img/paste-logo-light@2x.png" alt="Logo" border="0" width="48" style="display: block; width: 48px; max-width: 48px; min-width: 48px;">
+              <a href="https://ulinyu.id" target="_blank" style="display: inline-block;">
+                <img src="" alt="Logo" border="0" width="48" style="display: block; width: 48px; max-width: 48px; min-width: 48px;">
               </a>
             </td>
           </tr>
@@ -141,7 +141,7 @@
 
     <!-- start hero -->
     <tr>
-      <td align="center" bgcolor="#D2C7BA">
+      <td align="center" bgcolor="#74b9ff">
         <!--[if (gte mso 9)|(IE)]>
         <table align="center" border="0" cellpadding="0" cellspacing="0" width="600">
         <tr>
@@ -149,7 +149,8 @@
         <![endif]-->
         <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
           <tr>
-            <td align="left" bgcolor="#ffffff" style="padding: 36px 24px 0; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; border-top: 3px solid #d4dadf;">
+            <td align="center" bgcolor="#ffffff" style="padding: 36px 24px 0; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; border-top: 3px solid #d4dadf;">
+              <img src="{{  $detailReceipt['booking']->url_qrcode }}" alt="{{ $detailReceipt['booking']->tourism_name  }}" style="width:100%; max-width:200px; margin-top:25px">
               <h1 style="margin: 0; font-size: 32px; font-weight: 700; letter-spacing: -1px; line-height: 48px;">Thank you for your order!</h1>
             </td>
           </tr>
@@ -165,7 +166,7 @@
 
     <!-- start copy block -->
     <tr>
-      <td align="center" bgcolor="#D2C7BA">
+      <td align="center" bgcolor="#74b9ff">
         <!--[if (gte mso 9)|(IE)]>
         <table align="center" border="0" cellpadding="0" cellspacing="0" width="600">
         <tr>
@@ -176,7 +177,7 @@
           <!-- start copy -->
           <tr>
             <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
-              <p style="margin: 0;">Here is a summary of your recent order. If you have any questions or concerns about your order, please <a href="https://sendgrid.com">contact us</a>.</p>
+              <p style="margin: 0;">Here is a summary of your recent order. If you have any questions or concerns about your order, please <a href="#">contact us</a>.</p>
             </td>
           </tr>
           <!-- end copy -->
@@ -186,28 +187,19 @@
             <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
-                  <td align="left" bgcolor="#D2C7BA" width="75%" style="padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"><strong>Order #</strong></td>
-                  <td align="left" bgcolor="#D2C7BA" width="25%" style="padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"><strong>0000224</strong></td>
+                  <td align="left" bgcolor="#74b9ff" width="75%" style="padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"><strong>CODE</strong></td>
+                  <td align="left" bgcolor="#74b9ff" width="25%" style="padding: 12px;font-family:helvetica, arial; font-size: 16px; line-height: 24px;"><strong>{{ $detailReceipt['booking']->code_unique }}</strong></td>
                 </tr>
+                @foreach ($detailReceipt['booking']->detail as $detailBooking)
+                  <tr>
+                    <td align="left" width="75%" style="padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">{{ $detailBooking->category_name.' - '.number_format($detailBooking->price).' X '.$detailBooking->qty  }}</td>
+                    <td align="left" width="25%" style="padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">{{number_format($detailBooking->price*$detailBooking->qty) }}</td>
+                  </tr>                
+                @endforeach
+                
                 <tr>
-                  <td align="left" width="75%" style="padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">Item</td>
-                  <td align="left" width="25%" style="padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">$24.00</td>
-                </tr>
-                <tr>
-                  <td align="left" width="75%" style="padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">Item</td>
-                  <td align="left" width="25%" style="padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">$24.00</td>
-                </tr>
-                <tr>
-                  <td align="left" width="75%" style="padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">Shipping</td>
-                  <td align="left" width="25%" style="padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">$6.00</td>
-                </tr>
-                <tr>
-                  <td align="left" width="75%" style="padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">Sales Tax</td>
-                  <td align="left" width="25%" style="padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">$0.00</td>
-                </tr>
-                <tr>
-                  <td align="left" width="75%" style="padding: 12px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-top: 2px dashed #D2C7BA; border-bottom: 2px dashed #D2C7BA;"><strong>Total</strong></td>
-                  <td align="left" width="25%" style="padding: 12px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-top: 2px dashed #D2C7BA; border-bottom: 2px dashed #D2C7BA;"><strong>$54.00</strong></td>
+                  <td align="left" width="75%" style="padding: 12px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-top: 2px dashed #74b9ff; border-bottom: 2px dashed #74b9ff;"><strong>Total</strong></td>
+                  <td align="left" width="25%" style="padding: 12px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-top: 2px dashed #74b9ff; border-bottom: 2px dashed #74b9ff;"><strong>{{ number_format($detailReceipt['booking']->grand_total) }}</strong></td>
                 </tr>
               </table>
             </td>
@@ -226,7 +218,7 @@
 
     <!-- start receipt address block -->
     <tr>
-      <td align="center" bgcolor="#D2C7BA" valign="top" width="100%">
+      <td align="center" bgcolor="#74b9ff" valign="top" width="100%">
         <!--[if (gte mso 9)|(IE)]>
         <table align="center" border="0" cellpadding="0" cellspacing="0" width="600">
         <tr>
@@ -283,7 +275,7 @@
 
     <!-- start footer -->
     <tr>
-      <td align="center" bgcolor="#D2C7BA" style="padding: 24px;">
+      <td align="center" bgcolor="#74b9ff" style="padding: 24px;">
         <!--[if (gte mso 9)|(IE)]>
         <table align="center" border="0" cellpadding="0" cellspacing="0" width="600">
         <tr>
@@ -293,7 +285,7 @@
 
           <!-- start permission -->
           <tr>
-            <td align="center" bgcolor="#D2C7BA" style="padding: 12px 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 20px; color: #666;">
+            <td align="center" bgcolor="#74b9ff" style="padding: 12px 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 20px; color: #666;">
               <p style="margin: 0;">You received this email because we received a request for [type_of_action] for your account. If you didn't request [type_of_action] you can safely delete this email.</p>
             </td>
           </tr>
@@ -301,7 +293,7 @@
 
           <!-- start unsubscribe -->
           <tr>
-            <td align="center" bgcolor="#D2C7BA" style="padding: 12px 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 20px; color: #666;">
+            <td align="center" bgcolor="#74b9ff" style="padding: 12px 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 20px; color: #666;">
               <p style="margin: 0;">To stop receiving these emails, you can <a href="https://sendgrid.com" target="_blank">unsubscribe</a> at any time.</p>
               <p style="margin: 0;">Paste 1234 S. Broadway St. City, State 12345</p>
             </td>

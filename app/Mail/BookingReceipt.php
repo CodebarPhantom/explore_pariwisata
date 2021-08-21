@@ -7,18 +7,19 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class MyTestMail extends Mailable
+class BookingReceipt extends Mailable
 {
     use Queueable, SerializesModels;
 
+    protected $detailsReceipt;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($detailsReceipt)
     {
-        //
+        $this->detailsReceipt = $detailsReceipt;
     }
 
     /**
@@ -28,7 +29,8 @@ class MyTestMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Mail from ItSolutionStuff.com')
-        ->view('frontend.mail.new_booking');
+        return $this->from('mail@example.com', 'Ulinyu')
+            ->subject($this->detailsReceipt['subject'])
+            ->view('frontend.mail.new_booking')->with(['detailReceipt'=>$this->detailsReceipt]);
     }
 }

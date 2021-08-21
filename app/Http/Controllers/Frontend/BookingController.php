@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Barryvdh\DomPDF\Facade as DomPDF;
+use App\Jobs\SendEmailBookingReceipt;
 
 
 class BookingController extends Controller
@@ -117,12 +118,13 @@ class BookingController extends Controller
             'type' => ''
         ]);
 
+        $codeUnique = Str::upper(Str::random(10));
        
         
         $booking = new Booking();
         $booking->tourism_info_id = $request->tourism_info_id;
         $booking->tourism_name = $request->tourism_name;
-        $booking->code_unique = Str::upper(Str::random(10));
+        $booking->code_unique = $codeUnique;
         $booking->status = 2;
         
         
@@ -133,15 +135,18 @@ class BookingController extends Controller
             $radomCharQr = Str::random(40);
 
             foreach ($request->input('tourism_info_category_id', []) as $key => $value) {
-                $bookingDetail = new BookingDetail();
-                $bookingDetail->booking_id = $booking->id;
-                $bookingDetail->tourism_info_category_id = $request->tourism_info_category_id[$key];
-                $bookingDetail->qty = $request->qty[$key];
-                $bookingDetail->price = $request->price[$key];
-                $bookingDetail->category_name  = $request->category_name[$key];
-                $bookingDetail->save();
+                if($request->qty[$key] > 0){
+                    $bookingDetail = new BookingDetail();
+                    $bookingDetail->booking_id = $booking->id;
+                    $bookingDetail->tourism_info_category_id = $request->tourism_info_category_id[$key];
+                    $bookingDetail->qty = $request->qty[$key];
+                    $bookingDetail->price = $request->price[$key];
+                    $bookingDetail->category_name  = $request->category_name[$key];
+                    $bookingDetail->save();
 
-                $grandTotalSum += ($request->qty[$key] * $request->price[$key]);
+                    $grandTotalSum += ($request->qty[$key] * $request->price[$key]);
+                }
+                
             }
 
             (string) QrCode::eyeColor(0, 176, 151, 46, 46, 151, 177)
@@ -187,7 +192,12 @@ class BookingController extends Controller
             ], function ($message) use ($request) {
                 $message->to(setting('email_system'), "{$request->first_name}")->subject('Booking from ' . $request->first_name);
             });*/
-            //Mail::to('your_receiver_email@gmail.com')->send(new \App\Mail\MyTestMail());
+            $bookingDispatch = Booking::where('code_unique',$codeUnique)->with('detail')->first();
+            $details = ['email' => $email, 'subject' => 'Booking Details', 'booking'=>$bookingDispatch ];
+           // SendEmailBookingReceipt::dispatch($details);
+
+            $emailJob = (new SendEmailBookingReceipt($details))->delay(Carbon::now()->addMinutes(1));
+            dispatch($emailJob);
 
         }
 
