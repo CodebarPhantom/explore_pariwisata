@@ -23,7 +23,9 @@ class Booking extends Model
         'numbber_of_children' => 'integer',
         'type' => 'integer',
         'status' => 'integer',
-        'created_at'=>'datetime'
+        'created_at'=>'datetime',
+        'updated_at'=>'datetime',
+
     ];
 
     const TYPE_BOOKING_FORM = 1;

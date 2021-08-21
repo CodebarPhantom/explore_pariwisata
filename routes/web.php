@@ -61,6 +61,8 @@ $router->group([
 
     $router->get('/user/my-place', 'UserController@pageMyPlace')->name('user_my_place')->middleware(['auth']);
     $router->get('/user/my-booking', 'UserController@pageMyBooking')->name('user_my_booking')->middleware(['auth']);
+    $router->get('/user/my-booking/receipt/{codeUnique}', 'BookingController@downloadReceipt')->name('user_booking_receipt')->middleware(['auth']);
+
 
     $router->delete('/user/my-place', 'UserController@deleteMyPlace')->name('user_my_place_delete')->middleware(['auth']);
 

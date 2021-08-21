@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Barryvdh\DomPDF\Facade as DomPDF;
+
 
 class BookingController extends Controller
 {
@@ -143,10 +145,11 @@ class BookingController extends Controller
             }
 
             (string) QrCode::eyeColor(0, 176, 151, 46, 46, 151, 177)
+                ->format('png')
                 ->size(500)
-                ->generate( $booking->code_unique, public_path('uploads/booking/'. $radomCharQr.'.svg'));
+                ->generate( $booking->code_unique, public_path('uploads/booking/'. $radomCharQr.'.png'));
 
-            $booking->url_qrcode = url('/uploads/booking/' . $radomCharQr . '.svg');
+            $booking->url_qrcode = url('/uploads/booking/' . $radomCharQr . '.png');
             $booking->grand_total = $grandTotalSum;
             $booking->save();
 
@@ -184,9 +187,26 @@ class BookingController extends Controller
             ], function ($message) use ($request) {
                 $message->to(setting('email_system'), "{$request->first_name}")->subject('Booking from ' . $request->first_name);
             });*/
+            //Mail::to('your_receiver_email@gmail.com')->send(new \App\Mail\MyTestMail());
 
         }
 
         return $this->response->formatResponse(200, $booking, 'You successfully created your booking!');
+    }
+
+    public function downloadReceipt($codeUnique)
+    {
+        $receipt = Booking::myBooking()->with(['detail'])
+        ->with(['user' => function ($query) {
+            $query->select('id','name','email');
+        }])
+        ->where('code_unique',$codeUnique)
+        ->firstOrFail();
+
+        //return view('frontend.user.user_receipt',compact('receipt'));
+
+        $pdf = DomPDF::loadView('frontend.user.user_receipt',compact('receipt'))->setPaper('A4', 'portrait');
+
+        return $pdf->download(str::slug($receipt->tourism_name.'-'.$receipt->code_unique,'-') . '.pdf');
     }
 }

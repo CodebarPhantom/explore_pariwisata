@@ -1,6 +1,26 @@
 @extends('frontend.layouts.template')
 @section('main')
+<style>
+    .modal-content{
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        margin-top: 50%;
+    }
+</style>
     <main id="main" class="site-main">
+        <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">              
+                <div class="modal-body">
+                  <img src="" class="imagepreview" style="width: 100%;" >
+                  <div class="text-center" style="padding-top:25px; font-size: 150%;">
+                      <strong class="qrcodeunique"></strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         <div class="site-content">
             <div class="member-menu">
                 <div class="container">
@@ -51,7 +71,7 @@
                                 <tr>
                                     <td data-title=""></td>
                                     <td data-title="QR Code">
-                                        <a href="{{ $myBooking->url_qrcode }}" target="_blank">
+                                        <a href="#" class="pop" data-image="{{$myBooking->url_qrcode}}" data-code="{{$myBooking->code_unique}}">
                                             <img alt="QR Code {{$myBooking->code_unique}}" width="100px" src="{{ $myBooking->url_qrcode }}">
                                         </a>
                                     </td>   
@@ -69,7 +89,9 @@
                                     <td data-title="Code">{{$myBooking->code_unique}}</td>
                                                                      
                                     <td data-title="Action">
-                                       todo action bayar
+                                        <a href="{{route('user_booking_receipt', $myBooking->code_unique)}}" class="view" title="{{__('Print')}}"><i class="la la-print text-success"></i></a>
+                                        <a href="#" class="pop view" data-image="{{$myBooking->url_qrcode}}" data-code="{{$myBooking->code_unique}}" title="{{__('Show QR')}}"><i class="la la-qrcode"></i></a>
+                                        
                                     </td>
 
                                 </tr>
@@ -92,6 +114,14 @@
     <script>
         $('.my_place_filter').change(function () {
             $('#my_place_filter').submit();
+        });
+
+        $(function() {
+            $('.pop').on('click', function() {
+                $('.imagepreview').attr('src', $(this).attr('data-image'));
+                $('.qrcodeunique').text($(this).attr('data-code'));
+                $('#imagemodal').modal('show');   
+            });		
         });
     </script>
 @endpush
