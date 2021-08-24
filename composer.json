@@ -22,7 +22,8 @@
         "simplesoftwareio/simple-qrcode": "~4",
         "staudenmeir/eloquent-json-relations": "^1.1",
         "symfony/translation": "4.3.8",
-        "unisharp/laravel-filemanager": "^2.2"
+        "unisharp/laravel-filemanager": "^2.2",
+        "xendit/xendit-php": "^2.11"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",

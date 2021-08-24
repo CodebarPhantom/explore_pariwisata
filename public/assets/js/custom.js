@@ -405,12 +405,26 @@ const PRICE_RANGE = {
                 data: formData,
                 beforeSend: function () {
                     $('.booking_submit_btn').html('Sending...').prop('disabled', true);
+                    $('#cover-spin').show();
                 },
                 success: function (data) {
-                    $('.booking_submit_btn').html('Send').prop('disabled', false);
+                    $('.booking_submit_btn').html('Selanjutnya').prop('disabled', false);
                     if (data.code === 200) {
+                        $('.booking_submit_btn').hide();
+                        $('.nextBtn').show();
+
+                        $('.nextBtn').trigger('click');
                         $('.booking_success').show();
                         $('.booking_error').hide();
+
+                        $('#booking-name').text(data.data.name);
+                        $('#booking-detail').text(data.data.ticket_data);
+                        $('#booking-grandtotal').text(data.data.grand_total);
+                        $('#code-unique').val(data.data.code_unique);
+
+                        $('#cover-spin').hide();
+
+
                         // $('form :input').val('');
                     } else {
                         $('.booking_success').hide();

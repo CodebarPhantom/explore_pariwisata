@@ -49,5 +49,15 @@ class BookingController extends Controller
 
     }
 
+    public function bookingHandlerXendit(request $request)
+    {
+        $test = $request->test;
+
+        //return $test;
+
+        return $this->response->formatResponse(200, $test, 'Success');
+        
+    }
+
     
 }

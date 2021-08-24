@@ -7,6 +7,44 @@
         flex-direction: column;
         margin-top: 50%;
     }
+    .btn-primary{
+        background-color: #23d3d3;
+        border-color: #23d3d3;
+    }
+
+    #cover-spin {
+        position:fixed;
+        width:100%;
+        left:0;right:0;top:0;bottom:0;
+        background-color: rgba(255,255,255,0.7);
+        z-index:9999;
+        display:none;
+    }
+
+    @-webkit-keyframes spin {
+        from {-webkit-transform:rotate(0deg);}
+        to {-webkit-transform:rotate(360deg);}
+    }
+
+    @keyframes spin {
+        from {transform:rotate(0deg);}
+        to {transform:rotate(360deg);}
+    }
+
+    #cover-spin::after {
+        content:'';
+        display:block;
+        position:absolute;
+        left:48%;top:40%;
+        width:40px;height:40px;
+        border-style:solid;
+        border-color:black;
+        border-top-color:transparent;
+        border-width: 4px;
+        border-radius:50%;
+        -webkit-animation: spin .8s linear infinite;
+        animation: spin .8s linear infinite;
+    }
 </style>
     <main id="main" class="site-main">
         <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -20,7 +58,8 @@
                 </div>
               </div>
             </div>
-          </div>
+        </div>
+        <div id="cover-spin"></div>
         <div class="site-content">
             <div class="member-menu">
                 <div class="container">
@@ -71,9 +110,11 @@
                                 <tr>
                                     <td data-title=""></td>
                                     <td data-title="QR Code">
-                                        <a href="#" class="pop" data-image="{{$myBooking->url_qrcode}}" data-code="{{$myBooking->code_unique}}">
-                                            <img alt="QR Code {{$myBooking->code_unique}}" width="100px" src="{{ $myBooking->url_qrcode }}">
-                                        </a>
+                                        @if ($myBooking->status === 1)
+                                            <a href="#" class="pop" data-image="{{$myBooking->url_qrcode}}" data-code="{{$myBooking->code_unique}}">
+                                                <img alt="QR Code {{$myBooking->code_unique}}" width="100px" src="{{ $myBooking->url_qrcode }}">
+                                            </a>
+                                        @endif
                                     </td>   
                                     <td data-title="Wisata">
                                         <b>{{$myBooking->tourism_name}}</b>
@@ -89,9 +130,17 @@
                                     <td data-title="Code">{{$myBooking->code_unique}}</td>
                                                                      
                                     <td data-title="Action">
-                                        <a href="{{route('user_booking_receipt', $myBooking->code_unique)}}" class="view" title="{{__('Print')}}"><i class="la la-print text-success"></i></a>
+                                        @if ($myBooking->status === 1)
+                                        <a href="{{route('user_booking_receipt', $myBooking->code_unique)}}" class="view" title="{{__('Print')}}"><i class="la la-print"></i></a>
                                         <a href="#" class="pop view" data-image="{{$myBooking->url_qrcode}}" data-code="{{$myBooking->code_unique}}" title="{{__('Show QR')}}"><i class="la la-qrcode"></i></a>
-                                        
+                                        @elseif($myBooking->status === 2)
+                                            <form action="{{ route('user_booking_payment') }}" method="POST">   
+                                                @csrf 
+                                                <input id="code-unique" name="code_unique" type="hidden" value="{{ $myBooking->code_unique }}">
+                                                <button type="submit" class="btn bg-transparent view button-payment" title="Pembayaran"><i class="la la-money-bill text-success"></i></button>
+                                            </form>
+                                        @endif
+
                                     </td>
 
                                 </tr>
@@ -116,6 +165,9 @@
             $('#my_place_filter').submit();
         });
 
+        $('.button-payment').click(function(){
+            $('#cover-spin').show();
+        });
         $(function() {
             $('.pop').on('click', function() {
                 $('.imagepreview').attr('src', $(this).attr('data-image'));
