@@ -7,7 +7,8 @@ use App\Commons\Response;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\BookingDetail;
-use App\Models\Place;
+use App\Models\BookingPayment;
+use App\Models\BookingPaymentXendit;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -51,13 +52,62 @@ class BookingController extends Controller
 
     public function bookingHandlerXendit(request $request)
     {
-        $test = $request->test;
+        $xenditFromBnet = json_decode($request->xendit_from_bnet,true);
+      
 
-        //return $test;
+        $transaction = $xenditFromBnet['status'];
+        $type = $xenditFromBnet['payment_method'];
+        $order_id = $xenditFromBnet['external_id'];
+        $invoiceId = explode('-', $xenditFromBnet['external_id']);
+        $grossAmount = $xenditFromBnet['paid_amount'];
 
-        return $this->response->formatResponse(200, $test, 'Success');
+        if ($transaction == 'PAID') {
+            
+            
+            $booking = Booking::where('id', $invoiceId[0])->first();
+            $booking->payment = $grossAmount;
+            $booking->status = 1;
+            $booking->save();       
+               
+                    
+
+            $bookingPaymentXendit = new BookingPaymentXendit();
+            $bookingPaymentXendit->xendit_id = $xenditFromBnet['id'];
+            $bookingPaymentXendit->external_id = $order_id;
+            $bookingPaymentXendit->payment_method = $type;
+            $bookingPaymentXendit->status = $transaction;
+            $bookingPaymentXendit->paid_amount = $xenditFromBnet['paid_amount'];
+
+            if ($type == 'CREDIT_CARD') {
+                $bookingPaymentXendit->fees_paid_amount = $xenditFromBnet['paid_amount'] * 0.0519 + 2000; // biaya xendit credit card2.90% + + 2.29% PPN + Rp 2.000
+                $bookingPaymentXendit->adjusted_received_amount = $xenditFromBnet['paid_amount'] - $bookingPaymentXendit->fees_paid_amount;
+            } elseif($type == 'EWALLET') {
+                $bookingPaymentXendit->fees_paid_amount = $xenditFromBnet['paid_amount'] * 0.0165; // biaya xendit ewallet 1.65% 
+                $bookingPaymentXendit->adjusted_received_amount = $xenditFromBnet['paid_amount'] - $bookingPaymentXendit->fees_paid_amount;
+            }else{
+                $bookingPaymentXendit->adjusted_received_amount = $xenditFromBnet['adjusted_received_amount'];
+                $bookingPaymentXendit->fees_paid_amount = $xenditFromBnet['fees_paid_amount'];
+            }
+
+            $bookingPaymentXendit->description = $xenditFromBnet['description'];
+            $bookingPaymentXendit->save();
+
+            $bookingPayment = new BookingPayment();
+            $bookingPayment->payment_gateway_id = $order_id;
+            $bookingPayment->booking_id = $booking->id;
+            $bookingPayment->pay_date = carbon::now()->format('Y-m-d h:i:s');
+            $bookingPayment->amount = $grossAmount; 
+            $bookingPayment->status = $transaction;
+            $bookingPayment->type ="XENDIT";
+            $bookingPayment->note = $xenditFromBnet['description'];
+            $bookingPayment->save();
+
+
+        }
+        //return $this->response->formatResponse(200, 'ya', 'Success');
         
     }
+    
 
     
 }
