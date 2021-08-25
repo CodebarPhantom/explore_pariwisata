@@ -136,7 +136,7 @@ class BookingController extends Controller
                 $name = $request->name;
                 $email = $request->email;
                 $phone = $request->phone_number;
-                $datetime = "";
+                //$datetime = "";
                 //$numberofadult = "";
                 //$numberofchildren = "";
                 //$text_message = $request->message;
@@ -145,7 +145,7 @@ class BookingController extends Controller
                 $name = user()->name;
                 $email = user()->email;
                 $phone = user()->phone_number;
-                $datetime = "";
+                //$datetime = "";
                 //$numberofadult = $booking->numbber_of_adult;
                 //$numberofchildren = $booking->numbber_of_children;
                 //$text_message = "";
@@ -211,15 +211,18 @@ class BookingController extends Controller
                 $booking->grand_total = $grandTotalSum;
                 $booking->save();
 
-                
+                /**BEGIN - TODO Pindahain saat pemabayaran */
                 
             
-                $bookingDispatch = Booking::where('code_unique',$codeUnique)->with('detail')->first();
-                $details = ['email' => $email, 'subject' => 'Booking Details', 'booking'=>$bookingDispatch ];
-            // SendEmailBookingReceipt::dispatch($details);
+                //$bookingDispatch = Booking::where('code_unique',$codeUnique)->with('detail')->first();
+                //$details = ['email' => $email, 'subject' => 'Booking Details', 'booking'=>$bookingDispatch ];
+                // SendEmailBookingReceipt::dispatch($details);
 
-                $emailJob = (new SendEmailBookingReceipt($details))->delay(Carbon::now()->addMinutes(1));
-                dispatch($emailJob);
+                //$emailJob = (new SendEmailBookingReceipt($details))->delay(Carbon::now()->addMinutes(1));
+                //dispatch($emailJob);
+                //Install supervisior di live server
+                /**END - TODO Pindahain saat pemabayaran */
+
 
                 $data = [
                     'name'=>$name,

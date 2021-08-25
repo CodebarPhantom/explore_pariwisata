@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use App\Jobs\SendEmailBookingReceipt;
+
 
 class BookingController extends Controller
 {
@@ -64,7 +66,7 @@ class BookingController extends Controller
         if ($transaction == 'PAID') {
             
             
-            $booking = Booking::where('id', $invoiceId[0])->first();
+            $booking = Booking::where('id', $invoiceId[0])->with(['detail'])->first();
             $booking->payment = $grossAmount;
             $booking->status = 1;
             $booking->save();       
@@ -101,6 +103,12 @@ class BookingController extends Controller
             $bookingPayment->type ="XENDIT";
             $bookingPayment->note = $xenditFromBnet['description'];
             $bookingPayment->save();
+
+            //$bookingDispatch = Booking::where('code_unique',$codeUnique)->with('detail')->first();
+            $details = ['email' => $booking->email, 'subject' => "Booking Details $booking->name - $booking->code", 'booking'=>$booking ];
+            // SendEmailBookingReceipt::dispatch($details);
+            $emailJob = (new SendEmailBookingReceipt($details))->delay(Carbon::now()->addMinutes(1));
+            dispatch($emailJob);
 
 
         }

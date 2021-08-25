@@ -70,8 +70,8 @@
                                             <div class="account-sub">
                                                 <ul>
                                                     <li class="{{isActiveMenu('user_profile')}}"><a href="{{route('user_profile')}}">{{__('Profile')}}</a></li>
-                                                    <li class="{{isActiveMenu('user_my_place')}}"><a href="{{route('user_my_place')}}">{{__('My Places')}}</a></li>
-                                                    <li class="{{isActiveMenu('user_wishlist')}}"><a href="{{route('user_wishlist')}}">{{__('Wishlist')}}</a></li>
+                                                    <li class="{{isActiveMenu('user_my_booking')}}"><a href="{{route('user_my_booking')}}">{{__('My Bookings')}}</a></li>
+
                                                     <li>
                                                         <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{__('Logout')}}</a>
                                                         <form class="d-none" id="logout-form" action="{{ route('logout') }}" method="POST">
@@ -100,33 +100,10 @@
                                             <li>
                                                 <a title="Home demo" href="{{route('home')}}">Home</a>
                                                 <ul class="sub-menu">
-                                                    <li><a href="https://lara-restaurant.getgolo.com">Restaurant</a></li>
-                                                    <li><a href="https://lara-business.getgolo.com">Business Listing</a></li>
-                                                    <li><a href="https://lara-cityguide.getgolo.com">City Guide</a></li>
+                                                    <li><a href="{{route('user_profile')}}">{{__('Profile')}}</a></li>
+                                                    <li><a href="{{route('user_my_booking')}}">{{__('My Bookings')}}</a></li>
                                                 </ul>
                                             </li>
-                                            <li>
-                                                <a title="Place detail" href="#">Place detail</a>
-                                                <ul class="sub-menu">
-                                                    <li><a href="{{route('place_detail', 'boot-cafe')}}">Booking form</a></li>
-                                                    <li><a href="{{route('place_detail', 'le-meurice')}}">Affiliate Book Buttons</a></li>
-                                                    <li><a href="{{route('place_detail', 'musee-guimet')}}">Affiliate Banner Ads</a></li>
-                                                    <li><a href="{{route('place_detail', 'clamato')}}">Enquiry Form</a></li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <a title="Page" href="#">Page</a>
-                                                <ul class="sub-menu">
-                                                    <li><a href="{{route('post_detail', ['about-us', 10])}}">About</a></li>
-                                                    <li><a href="/page-404">404</a></li>
-                                                    <li><a href="{{route('post_detail', ['faqs', 11])}}">Faqs</a></li>
-                                                    <li><a href="{{route('page_landing', '03')}}">App Landing</a></li>
-                                                    <li><a href="{{route('page_landing', '01')}}">Construction</a></li>
-                                                    <li><a href="{{route('page_landing', '02')}}">Coming Soon</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a title="Blog" href="{{route('post_list_all')}}">Blog</a></li>
-                                            <li><a title="Contacts" href="{{route('page_contact')}}">Contact</a></li>
                                         </ul>
                                     </div><!-- .popup__menu -->
                                 </div><!-- .popup__content -->
@@ -144,23 +121,6 @@
 
                         @unless(isRoute('home'))
                             @if(setting('template', '01') == '01')
-                                <div class="site__search golo-ajax-search">
-                                    <a title="Close" href="#" class="search__close">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-                                            <path fill="#5D5D5D" fill-rule="nonzero" d="M9.3 8.302l6.157-6.156a.706.706 0 1 0-.999-.999L8.302 7.304 2.146 1.148a.706.706 0 1 0-.999.999l6.157 6.156-6.156 6.155a.706.706 0 0 0 .998.999L8.302 9.3l6.156 6.156a.706.706 0 1 0 .998-.999L9.301 8.302z"/>
-                                        </svg>
-                                    </a><!-- .search__close -->
-                                    <form action="{{route('search')}}" class="site__search__form" method="GET">
-                                        <div class="site__search__field">
-                                    <span class="site__search__icon">
-                                        <i class="la la-search la-24"></i>
-                                    </span><!-- .site__search__icon -->
-                                            <input class="site__search__input" type="text" name="keyword" placeholder="{{__('Search places ...')}}" autocomplete="off">
-                                            <div class="search-result"></div>
-                                            <div class="golo-loading-effect"><span class="golo-loading"></span></div>
-                                        </div><!-- .search__input -->
-                                    </form><!-- .search__form -->
-                                </div><!-- .site__search -->
                             @else
                                 <div class="site__search layout-02">
                                     <a title="Close" href="#" class="search__close">
@@ -284,8 +244,7 @@
                                             <li class="{{isActiveMenu('admin_dashboard')}}"><a href="{{route('admin_dashboard')}}" target="_blank" rel="nofollow">{{__('Dashboard')}}</a></li>
                                         @endif
                                         <li class="{{isActiveMenu('user_profile')}}"><a href="{{route('user_profile')}}">{{__('Profile')}}</a></li>
-                                        <li class="{{isActiveMenu('user_my_place')}}"><a href="{{route('user_my_place')}}">{{__('My Places')}}</a></li>
-                                        <li class="{{isActiveMenu('user_wishlist')}}"><a href="{{route('user_wishlist')}}">{{__('Wishlist')}}</a></li>
+                                        <li class="{{isActiveMenu('user_my_booking')}}"><a href="{{route('user_my_booking')}}">{{__('My Bookings')}}</a></li>
                                         <li>
                                             <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{__('Logout')}}</a>
                                             <form class="d-none" id="logout-form" action="{{ route('logout') }}" method="POST">

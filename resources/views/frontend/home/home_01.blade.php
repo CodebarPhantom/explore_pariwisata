@@ -19,16 +19,6 @@
             <div class="container">
                 <div class="site-banner__content golo-ajax-search">
                     <h1 class="site-banner__title">{{__('Exploring Karawang')}}</h1>
-                    <form action="{{route('search')}}" class="site-banner__search">
-                        <div class="site-banner__search__field">
-                            <span class="site-banner__search__icon">
-                                <i class="la la-search la-24"></i>
-                            </span><!-- .site-banner__search__icon -->
-                            <input class="site-banner__search__input" type="text" name="keyword" placeholder="{{__('Tulis Lokasi yang ingin kamu kunjungi')}}" autocomplete="off">
-                            <div class="search-result"></div>
-                            <div class="golo-loading-effect"><span class="golo-dual-ring"></span></div>
-                        </div><!-- .site-banner__search__input -->
-                    </form><!-- .site-banner__search -->
                 </div><!-- .site-banner__content -->
             </div>
         </div><!-- .site-banner -->

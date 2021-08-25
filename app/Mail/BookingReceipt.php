@@ -29,7 +29,7 @@ class BookingReceipt extends Mailable
      */
     public function build()
     {
-        return $this->from('mail@example.com', 'Ulinyu')
+        return $this->from('admin@ulinyu.id', 'Ulinyu')
             ->subject($this->detailsReceipt['subject'])
             ->view('frontend.mail.new_booking')->with(['detailReceipt'=>$this->detailsReceipt]);
     }
