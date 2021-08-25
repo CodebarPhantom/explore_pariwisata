@@ -48,6 +48,8 @@ class BookingController extends Controller
                 "status_bs_color"=>$myBooking->status_bs_color,
                 "details"=>$myBooking->detail
             ];
+            $myBooking->visit_time = Carbon::now()->format('Y-m-d H:i:s');
+            $myBooking->save();
             
             return $this->response->formatResponse(200,  $response, "success");
         }else{
