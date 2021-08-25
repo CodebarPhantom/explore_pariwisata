@@ -105,7 +105,7 @@ class BookingController extends Controller
             $bookingPayment->save();
 
             //$bookingDispatch = Booking::where('code_unique',$codeUnique)->with('detail')->first();
-            $details = ['email' => $booking->email, 'subject' => "Booking Details $booking->name - $booking->tourism_name", 'booking'=>$booking ];
+            $details = ['email' => $booking->email, 'subject' => "Ulinyu.id - $booking->tourism_name", 'booking'=>$booking ];
             // SendEmailBookingReceipt::dispatch($details);
             $emailJob = (new SendEmailBookingReceipt($details))->delay(Carbon::now()->addMinutes(1));
             dispatch($emailJob);

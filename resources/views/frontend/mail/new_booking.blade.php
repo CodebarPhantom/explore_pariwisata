@@ -125,7 +125,7 @@
           <tr>
             <td align="center" valign="top" style="padding: 36px 24px;">
               <a href="https://ulinyu.id" target="_blank" style="display: inline-block;">
-                <img src="{{ ENV('APP_URL') }}/assets/images/assets/ulinyu.png" alt="Logo" border="0" width="48" style="display: block; width: 48px; max-width: 48px; min-width: 48px;">
+                <img src="{{ ENV('APP_URL') }}/assets/images/assets/ulinyu.png" alt="Logo" border="0" width="150" style="display: block; width: 150px; max-width: 150px; min-width: 150px;">
               </a>
             </td>
           </tr>
@@ -236,7 +236,7 @@
                 <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 300px;">
                   <tr>
                     <td align="left" valign="top" style="padding-bottom: 36px; padding-left: 36px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
-                      <p><strong>Buyer Details:</strong></p>
+                      <p><strong>Booking Details:</strong></p>
                       <p>{{$detailReceipt['booking']->name }}<br>
                        {{$detailReceipt['booking']->email}}<br>
                        {{$detailReceipt['booking']->code_unique }}
@@ -249,6 +249,15 @@
               </td>
               <td align="left" valign="top" width="300">
               <![endif]-->
+              <div style="display: inline-block; width: 100%; max-width: 50%; min-width: 240px; vertical-align: top;">
+                <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 300px;">
+                  <tr>
+                    <td align="left" valign="top" style="padding-bottom: 36px; padding-left: 36px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
+                      
+                    </td>
+                  </tr>
+                </table>
+              </div>
               <!--[if (gte mso 9)|(IE)]>
               </td>
               </tr>

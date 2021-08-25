@@ -287,10 +287,10 @@
                         <aside class="footer__top__nav">
                             <h3>{{__('Company')}}</h3>
                             <ul>
-                                <li><a href="{{route('post_detail', ['about-us', 10])}}">{{__('About Us')}}</a></li>
-                                <li><a href="{{route('post_list_all')}}">{{__('Blog')}}</a></li>
-                                <li><a href="{{route('post_detail', ['faqs', 11])}}">{{__('Faqs')}}</a></li>
-                                <li><a href="{{route('page_contact')}}">{{__('Contact')}}</a></li>
+                                <li><a href="#">{{__('About Us')}}</a></li>
+                                <li><a href="#">{{__('Blog')}}</a></li>
+                                <li><a href="#">{{__('Faqs')}}</a></li>
+                                <li><a href="#">{{__('Contact')}}</a></li>
                             </ul>
                         </aside>
                     </div>
@@ -308,8 +308,8 @@
                     <div class="col-lg-3">
                         <aside class="footer__top__nav footer__top__nav--contact">
                             <h3>{{__('Contact Us')}}</h3>
-                            <p>{{__('Email: support@domain.com')}}</p>
-                            <p>{{__('Phone: 1 (00) 832 2342')}}</p>
+                            <p>{{__('Email: support@ulinyu.id')}}</p>
+                            <p>{{__('Phone:  (0267) 8401585')}}</p>
                             <ul>
                                 <li>
                                     <a title="Facebook" href="#">
@@ -337,7 +337,7 @@
                 </div>
             </div><!-- .top-footer -->
             <div class="footer__bottom">
-                <p class="footer__bottom__copyright">{{now()->year}} &copy; <a href="{{__('https://uxper.co')}}" target="_blank">{{__('UxPer')}}</a>. {{__('All rights reserved.')}}</p>
+                <p class="footer__bottom__copyright">{{now()->year}} &copy; <a href="{{__('https://www.linkedin.com/in/eryan-fauzan-1ba086190/')}}" target="_blank">{{__('Ulinyu.id')}}</a>. {{__('All rights reserved.')}}</p>
             </div><!-- .top-footer -->
         </div><!-- .container -->
     </footer><!-- site-footer -->
