@@ -33,22 +33,36 @@ class BookingController extends Controller
         
                
 
-        $myBooking = Booking::with(['detail'])->where('code_unique', $request->code_unique)->first();
+        $myBooking = Booking::with(['detail'])->where('code_unique', $request->code_unique)->where('status',1)->where('visit_time',NULL)->first();
 
-        $response = 
-        [
-            'id'=>$myBooking->id,
-            'tourism_info_id'=>$myBooking->tourism_info_id,
-            "tourism_name"=>$myBooking->tourism_name,
-            "code_unique"=>$myBooking->code_unique,
-            "grand_total"=>$myBooking->grand_total,
-            "status"=>$myBooking->status,
-            "status_name"=>$myBooking->status_name,
-            "status_bs_color"=>$myBooking->status_bs_color,
-            "details"=>$myBooking->detail
-        ];
+        if($myBooking !== NULL){
+            $response = 
+            [
+                'id'=>$myBooking->id,
+                'tourism_info_id'=>$myBooking->tourism_info_id,
+                "tourism_name"=>$myBooking->tourism_name,
+                "code_unique"=>$myBooking->code_unique,
+                "grand_total"=>$myBooking->grand_total,
+                "status"=>$myBooking->status,
+                "status_name"=>$myBooking->status_name,
+                "status_bs_color"=>$myBooking->status_bs_color,
+                "details"=>$myBooking->detail
+            ];
+            
+            return $this->response->formatResponse(200,  $response, "success");
+        }else{
+            return $this->response->formatResponse(422,  "Ticket sudah terpakai / Belum melakukan Pembayaran", "Ticket sudah terpakai / Belum melakukan Pembayaran");
+        }
         
-        return $this->response->formatResponse(200,  $response, "success");
+
+    }
+
+    public function visitTimeByCodeUnique(Request $request){
+        $myBooking = Booking::where('code_unique', $request->code_unique)->first();
+        $myBooking->visit_time = Carbon::now()->format('Y-m-d H:i:s');
+        $myBooking->save();
+        
+        return $this->response->formatResponse(200,  "Waktu Kunjungan sudah tercatat", "Waktu Kunjungan $request->code_unique sudah tercatat");
 
     }
 

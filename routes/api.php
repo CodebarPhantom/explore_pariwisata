@@ -86,7 +86,9 @@ $router->group([
      * Bookings
      */
     $router->post('/booking/code-unique', 'BookingController@getByCodeUnique');
+    $router->post('/booking/visit-time', 'BookingController@visitTimeByCodeUnique');
     $router->post('/booking/handler-xendit', 'BookingController@bookingHandlerXendit');
+
 
 
 
