@@ -284,7 +284,7 @@
                                                 <td class="content-block aligncenter">
                                                     @php                                    
                                                         // $path = str_replace('env(APP_URL)','',$receipt->url_qrcode); //path production
-                                                        $path = str_replace('http://127.0.0.1:8080/','',$receipt->url_qrcode); // path dev 127 auto to localhost
+                                                        $path = str_replace(env('APP_URL'),'',$receipt->url_qrcode); // path dev 127 auto to localhost
                                                         $type = pathinfo($path, PATHINFO_EXTENSION);
                                                         $data = file_get_contents($path);
                                                         $base64 = 'data:image/'.$type.';base64,' . base64_encode($data);
