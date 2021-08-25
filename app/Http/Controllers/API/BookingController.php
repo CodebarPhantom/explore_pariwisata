@@ -30,9 +30,6 @@ class BookingController extends Controller
 
     public function getByCodeUnique(Request $request)
     {
-        
-               
-
         $myBooking = Booking::with(['detail'])->where('code_unique', $request->code_unique)->where('status',1)->where('visit_time',NULL)->first();
 
         if($myBooking !== NULL){
@@ -51,9 +48,19 @@ class BookingController extends Controller
             $myBooking->visit_time = Carbon::now()->format('Y-m-d H:i:s');
             $myBooking->save();
             
+            
             return $this->response->formatResponse(200,  $response, "success");
         }else{
-            return $this->response->formatResponse(422,  "Ticket sudah terpakai / Belum melakukan Pembayaran", "Ticket sudah terpakai / Belum melakukan Pembayaran");
+            return response()->json(
+                [
+                    'code' => 422,
+                    'data' => "Ticket sudah terpakai / Belum melakukan Pembayaran",
+                    'message' => "Ticket sudah terpakai / Belum melakukan Pembayaran",
+                ],
+                422
+            );
+
+            //return $this->response->formatResponse(422,  "Ticket sudah terpakai / Belum melakukan Pembayaran", "Ticket sudah terpakai / Belum melakukan Pembayaran");
         }
         
 
