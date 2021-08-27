@@ -151,7 +151,7 @@
                         </tbody>
                     </table>
                     <div class="pagination align-left">
-                        {{ $myBookings->render('frontend.common.pagination') }}
+                        {{$myBookings->appends(["keyword" => $filter['keyword']])->render('frontend.common.pagination')}}
                     </div><!-- .pagination -->
                 </div><!-- .member-place-wrap -->
             </div>

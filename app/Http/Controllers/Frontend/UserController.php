@@ -127,23 +127,29 @@ class UserController extends Controller
 
     public function pageMyBooking(Request $request)
     {
+        $keyword = $request->keyword;
+
         $filter = [
-            'tourism' => $request->tourism_id,
-            'keyword' => $request->keyword,
+            'keyword' => $keyword
         ];
 
+
+        
+
+        //dd($filter['keyword']);
+
         $myBookings = Booking::myBooking()->with(['detail'])
-        ->when($filter['tourism'], function ($query, $filter) {
+        /*->when($filter['tourism'], function ($query, $filter) {
             $query->where('tourism_id', '=', $filter['tourism']);
-        })
-        ->when($filter['keyword'], function ($query,$filter) {
-            $query->where('name', 'like', '%' . $filter['keyword'] . '%');
+        })*/
+        ->when($keyword, function ($query,$keyword) {
+            $query->where('tourism_name', 'like', '%' . $keyword . '%');
         })
         ->orderBy('created_at','desc')->paginate(10);
 
         $app_name = setting('app_name', 'Ulinyu.id');
         SEOMeta("My Bookings - {$app_name}");
-        return view('frontend.user.user_my_booking', compact('myBookings'));
+        return view('frontend.user.user_my_booking', compact('myBookings','filter'));
 
 
     }

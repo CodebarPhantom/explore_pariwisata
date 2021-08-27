@@ -82,11 +82,14 @@ class User extends Authenticatable implements MustVerifyEmail
             'message' => ''
         ];
         $rules = [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ];
-        $message_errors = [];
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'password' => ['required', 'string', 'min:8', 'confirmed'],
+            ];
+        $message_errors = [
+            'required' => ':attribute wajib di isi,',
+            'confirmed'=>':attribute harus sama dengan confirm :attribute,',
+            'min'=>':attribute minimal 8 karakter'];
         $validator = Validator::make($validateData, $rules, $message_errors);
         if ($validator->fails()) {
             $resp->message = $validator->messages();

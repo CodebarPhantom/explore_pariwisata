@@ -73,7 +73,7 @@
                                                     <li class="{{isActiveMenu('user_my_booking')}}"><a href="{{route('user_my_booking')}}">{{__('My Bookings')}}</a></li>
 
                                                     <li>
-                                                        <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{__('Logout')}}</a>
+                                                        <a href="{{ route('logout') }}" onsubmit="return confirm('Do you really want to submit the form?');" onclick="confirm('Are you sure wanna logout?'); document.getElementById('logout-form').submit();">{{__('Logout')}}</a>
                                                         <form class="d-none" id="logout-form" action="{{ route('logout') }}" method="POST">
                                                             @csrf
                                                         </form>
@@ -197,7 +197,7 @@
                                         <button type="submit" class="gl-button btn button w-100" id="submit_login">{{__('Login')}}</button>
                                     </form>
 
-                                    <form class="form-sign form-content" id="register" action="{{route('register')}}" method="post">
+                                    <form class="form-sign form-content" id="register-form" action="{{route('register')}}" method="post">
                                         @csrf
 
                                         <small class="form-text text-danger golo-d-none" id="register_error">error!</small>
@@ -246,7 +246,7 @@
                                         <li class="{{isActiveMenu('user_profile')}}"><a href="{{route('user_profile')}}">{{__('Profile')}}</a></li>
                                         <li class="{{isActiveMenu('user_my_booking')}}"><a href="{{route('user_my_booking')}}">{{__('My Bookings')}}</a></li>
                                         <li>
-                                            <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{__('Logout')}}</a>
+                                            <a href="{{ route('logout') }}" onclick="logoutConfirmation(); ">{{__('Logout')}}</a>
                                             <form class="d-none" id="logout-form" action="{{ route('logout') }}" method="POST">
                                                 @csrf
                                             </form>

@@ -169,7 +169,7 @@ const PRICE_RANGE = {
             });
         },
         submitRegister: function () {
-            $('#register').submit(function (event) {
+            $('#register-form').submit(function (event) {
                 event.preventDefault();
                 let $form = $(this);
                 let formData = getFormData($form);
@@ -660,3 +660,12 @@ function previewUploadImage(input, element_id) {
         reader.readAsDataURL(input.files[0]);
     }
 }
+
+function logoutConfirmation() {
+    event.preventDefault();
+    if (confirm('Do you want to Logout?')) {
+        document.getElementById('logout-form').submit();
+    } else {
+        return false;
+    }
+ }

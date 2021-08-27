@@ -82,7 +82,7 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         $validator = $this->user->validateRegister($request);
-
+        $user = '';
         if ($validator->code == APICode::SUCCESS) {
             $user = $this->user->create($request);
             $this->guard()->login($user);

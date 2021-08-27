@@ -23,10 +23,10 @@ class ResetPasswordController extends Controller
 
     public function sendMail(Request $request)
     {
-        $user = User::where('email', $request->email)->firstOrFail();
+        $user = User::where('email', $request->email)->first();
 
         if (!$user) {
-            return $this->response->formatResponse(200, [], 'Email not found!');
+            return $this->response->formatResponse(404, [], 'Email not found!');
         }
 
         $passwordReset = PasswordReset::updateOrCreate([
@@ -55,7 +55,7 @@ class ResetPasswordController extends Controller
             return back()->with('error', 'This password reset token is invalid.');
         }
 
-        $user = User::where('email', $passwordReset->email)->firstOrFail();
+        $user = User::where('email', $passwordReset->email)->first();
 
         if (!$user) {
             return back()->with('error', 'We can\'t find a user with that e-mail address.');
