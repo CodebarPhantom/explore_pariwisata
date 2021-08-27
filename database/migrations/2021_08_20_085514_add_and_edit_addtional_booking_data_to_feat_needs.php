@@ -16,7 +16,7 @@ class AddAndEditAddtionalBookingDataToFeatNeeds extends Migration
         Schema::table('bookings', function (Blueprint $table) {
             $table->unsignedBigInteger('tourism_info_id')->after('place_id');
             $table->string('tourism_name')->after('tourism_info_id');
-            $table->string('code_unique')->unique()->after('status');
+            $table->string('code_unique')->after('status');
             $table->unsignedInteger('grand_total')->after('code_unique');
             $table->dateTime('visit_time')->nullable()->after('grand_total');
             $table->string('url_qrcode')->after('grand_total');
