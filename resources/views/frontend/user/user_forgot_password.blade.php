@@ -23,8 +23,8 @@
                             <input type="password" name="password" placeholder="{{__('Enter new password')}}" required>
                         </div>
                         <div class="field-input">
-                            <label for="re_new">{{__('Re-new password')}}</label>
-                            <input type="password" name="password_confirmation" placeholder="{{__('Enter new password')}}" required>
+                            <label for="re_new">{{__('Confirm new password')}}</label>
+                            <input type="password" name="password_confirmation" placeholder="{{__('Confirm new password')}}" required>
                         </div>
                         <div class="field-submit">
                             <input type="hidden" name="token" value="{{$token}}">
