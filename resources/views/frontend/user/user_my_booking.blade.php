@@ -150,10 +150,16 @@
                         @endif
                         </tbody>
                     </table>
-                    <div class="pagination align-left">
+                    <div class="pagination align-center">
                         {{$myBookings->appends(["keyword" => $filter['keyword']])->render('frontend.common.pagination')}}
                     </div><!-- .pagination -->
+
+                    <div class="row align-center">
+                        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeXjesAYIzL_OjFpl7FevMD0p6iA8vOttxy6uD_bVcnKge3QA/viewform?embedded=true" width="100%" height="400" frameborder="0" marginheight="5" marginwidth="5">Loading…</iframe>
+                    </div>
                 </div><!-- .member-place-wrap -->
+
+                
             </div>
         </div><!-- .site-content -->
     </main><!-- .site-main -->
