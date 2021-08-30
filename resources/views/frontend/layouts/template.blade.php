@@ -92,18 +92,6 @@
                                         </div><!-- .account -->
                                     @endguest
 
-                                    <div class="popup__destinations popup__box">
-                                        <ul class="menu-arrow">
-                                            <li>
-                                                <a title="Destinations" href="#">{{__('Destinations')}}</a>
-                                                <ul class="sub-menu">
-                                                    @foreach($destinations as $city)
-                                                        <li><a href="{{route('city_detail', $city->slug)}}" title="{{$city->name}}">{{$city->name}}</a></li>
-                                                    @endforeach
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </div><!-- .popup__destinations -->
                                     <div class="popup__menu popup__box">
                                         <ul class="menu-arrow">
                                             <li>
@@ -116,12 +104,6 @@
                                         </ul>
                                     </div><!-- .popup__menu -->
                                 </div><!-- .popup__content -->
-                                <div class="popup__button popup__box">
-                                    <a class="btn" href="{{route('place_addnew')}}">
-                                        <i class="la la-plus la-24"></i>
-                                        <span>{{__('Add place')}}</span>
-                                    </a>
-                                </div><!-- .popup__button -->
                             </div><!-- .popup -->
                         </div><!-- .site__menu -->
                         <div class="site__brand">
