@@ -1,5 +1,11 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\Auth\LoginController;
+use App\Http\Controllers\API\Home\HomeController;
+use App\Http\Controllers\API\Place\PlaceController;
+use App\Http\Controllers\API\User\UserController;
+use App\Http\Controllers\API\Auth\LogoutController;
 use Illuminate\Http\Request;
 
 /*
@@ -55,6 +61,8 @@ $router->group([
     'as' => 'api_app_',
     'middleware' => []], function () use ($router) {
 
+    
+
     $router->get('/cities', 'CityController@list');
     $router->get('/cities/{id}', 'CityController@detail')->where('id', '[0-9]+');
     $router->get('/cities/popular', 'CityController@popularCity');
@@ -73,7 +81,7 @@ $router->group([
     $router->get('/users/{user_id}/place/wishlist', 'UserController@getPlaceByUser');
     $router->get('/users/{user_id}/place/wishlist', 'UserController@getPlaceByUser');
     $router->post('/users/reset-password', 'Frontend\ResetPasswordController@sendMail')->name('user_forgot_password');
-    $router->post('/users/login', 'UserController@login');
+    //$router->post('/users/login', 'UserController@login');
 
     /**
      * Places
@@ -85,11 +93,56 @@ $router->group([
     /**
      * Bookings
      */
-    $router->post('/booking/code-unique', 'BookingController@getByCodeUnique');
-    $router->post('/booking/visit-time', 'BookingController@visitTimeByCodeUnique');
-    $router->post('/booking/handler-xendit', 'BookingController@bookingHandlerXendit');
+    Route::namespace('Booking')->group(function () {
+        Route::post('/booking/code-unique', 'BookingController@getByCodeUnique');
+        Route::post('/booking/visit-time', 'BookingController@visitTimeByCodeUnique');
+        Route::post('/booking/handler-xendit', 'BookingController@bookingHandlerXendit');
+        Route::post('/booking/bookings', 'BookingController@booking'); // awas ini booking ga harus login kan
+        Route::post('/booking/payment','BookingController@bookingPayment');
 
 
+    });
 
+
+    /**
+     * Auth
+     */    
+    Route::namespace('Auth')->group(function () {
+        Route::group(['prefix' => 'auth'], function () {
+            Route::post('/login', [LoginController::class, 'index']);
+
+           Route::middleware('auth:sanctum', 'api.user')->group(function () {
+                Route::post('/logout', [LogoutController::class, 'index']);
+            });
+        });
+    });
+
+    Route::namespace('Home')->group(function () {
+        Route::group(['prefix' => 'home'], function () {
+            Route::get('/index', [HomeController::class, 'index']);
+
+           /* Route::middleware('auth:sanctum', 'api.user')->group(function () {
+                Route::get('/data', [LoginController::class, 'show']);
+                Route::post('/logout', [LogoutController::class, 'index']);
+            });*/
+        });
+    });
+
+    Route::namespace('Place')->group(function () {
+        Route::group(['prefix' => 'place'], function () {
+            Route::get('/{slug}', [PlaceController::class, 'detail']);
+
+           /* Route::middleware('auth:sanctum', 'api.user')->group(function () {
+                Route::get('/data', [LoginController::class, 'show']);
+                Route::post('/logout', [LogoutController::class, 'index']);
+            });*/
+        });
+    });
+
+    Route::namespace('User')->group(function () {
+        Route::group(['prefix' => 'user'], function () {
+            Route::get('/my-booking', [UserController::class, 'myBooking'])->middleware('auth:sanctum', 'api.user');
+        });
+    });
 
 });

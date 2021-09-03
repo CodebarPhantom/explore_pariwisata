@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 
 class Kernel extends HttpKernel
 {
@@ -50,8 +51,10 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            'throttle:60,1',
-            'bindings',
+            EnsureFrontendRequestsAreStateful::class,
+            'throttle:600,1',
+            //'throttle:api',
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
 
@@ -75,6 +78,7 @@ class Kernel extends HttpKernel
 
         // Check role admin
         'auth.admin' => \App\Http\Middleware\IsAdmin::class,
+        'api.user' => \App\Http\Middleware\API\UserMiddleware::class,
     ];
 
     /**
