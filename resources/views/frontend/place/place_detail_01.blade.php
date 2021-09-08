@@ -102,21 +102,24 @@
     <div id="cover-spin"></div>
     <div class="place">
         <div class="slick-sliders">
-            <div class="slick-slider photoswipe" data-item="1" data-arrows="false" data-itemScroll="1" data-dots="false" data-infinite="false" data-centerMode="false" data-centerPadding="0">
-                
+            <div class="slick-slider photoswipe" data-item="1" data-arrows="false" data-itemScroll="1" data-dots="false" data-infinite="false" data-centerMode="false" data-centerPadding="0">                
                 <div class="place-slider__item photoswipe-item"><a href="{{$showTourism->url_cover_image}}" data-height="900" data-width="1200" data-caption="{{$showTourism->name}}"><img src="{{$showTourism->url_cover_image}}" alt="{{$showTourism->name}}"></a></div>
-                    
-                
+             </div>
+             <div class="place-gallery">
+                <a class="show-gallery" title="Gallery" href="#">
+                    <i class="la la-images la-24"></i>
+                    {{__('Gallery')}}
+                </a>
             </div>
             <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
                 <!-- Background of PhotoSwipe.
-                        It's a separate element as animating opacity is faster than rgba(). -->
+                       It's a separate element as animating opacity is faster than rgba(). -->
                 <div class="pswp__bg"></div>
                 <!-- Slides wrapper with overflow:hidden. -->
                 <div class="pswp__scroll-wrap">
                     <!-- Container that holds slides.
-                            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-                            Don't modify these 3 pswp__item elements, data is added later on. -->
+                          PhotoSwipe keeps only 3 of them in the DOM to save memory.
+                          Don't modify these 3 pswp__item elements, data is added later on. -->
                     <div class="pswp__container">
                         <div class="pswp__item"></div>
                         <div class="pswp__item"></div>
@@ -153,7 +156,7 @@
                         </div>
                     </div>
                 </div>
-            </div><!-- .pswp -->
+            </div><!-- .place-item__photo -->
         </div><!-- .place-slider -->
         <div class="container">
             <div class="row">
@@ -166,7 +169,7 @@
                             <h1>{{$showTourism->name}}</h1>
                             <div class="place__meta">
                                 <div class="place__reviews reviews">
-                                        <span class="place__reviews__number reviews__number"></span>
+                                    <span class="place__reviews__number reviews__number"></span>
                                     <span class="place__places-item__count reviews_count"></span>
                                 </div>
                                 <!--<div class="place__currency"></div>-->

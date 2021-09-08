@@ -23,7 +23,7 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password', 'avatar', 'phone_number', 'facebook', 'instagram', 'status', 'is_admin'];
+    protected $fillable = ['name', 'email', 'password', 'phone_number', 'facebook', 'instagram', 'status', 'is_admin'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -91,7 +91,8 @@ class User extends Authenticatable implements MustVerifyEmail
         $message_errors = [
             'required' => ':attribute wajib di isi,',
             'confirmed'=>':attribute harus sama dengan confirm :attribute,',
-            'min'=>':attribute minimal 8 karakter'];
+            'min'=>':attribute minimal 8 karakter',
+            'unique'=>':attribute sudah terdaftar'];
         $validator = Validator::make($validateData, $rules, $message_errors);
         if ($validator->fails()) {
             $resp->message = $validator->messages();

@@ -8,20 +8,31 @@
 
 namespace App\Http\Controllers\API\User;
 
+use App\Http\Controllers\ApiController;
 use App\Commons\Response;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Booking;
+use App\Models\User;
+use App\Traits\UrlImage;
+use Illuminate\Validation\ValidationException;
+use DB, Exception;
+use App\Traits\CommonResponse;
+use Illuminate\Support\Facades\Hash;
 
-class UserController extends Controller
+
+
+
+class UserController extends ApiController
 {
 
-    private $response;
+    use UrlImage, CommonResponse;
+
+    /*private $response;
 
     public function __construct(Response $response)
     {
         $this->response = $response;
-    }
+    }*/
 
     /*public function getUserInfo(Request $request)
     {
@@ -60,16 +71,9 @@ class UserController extends Controller
     public function myBooking(Request $request)
     {
         $keyword = $request->keyword;
-
         $filter = [
             'keyword' => $keyword
         ];
-
-
-        
-
-        //dd($filter['keyword']);
-
         $myBookings = Booking::myBooking()->with(['detail'])
         /*->when($filter['tourism'], function ($query, $filter) {
             $query->where('tourism_id', '=', $filter['tourism']);
@@ -79,7 +83,7 @@ class UserController extends Controller
         })
         ->orderBy('created_at','desc')->paginate(10);
 
-        return $this->response->formatResponse(200, $myBookings, 'OK');
+        return $this->formatResponse(200, $myBookings, 'Success');
 
 
         //$app_name = setting('app_name', 'Ulinyu.id');
@@ -87,6 +91,90 @@ class UserController extends Controller
         //return view('frontend.user.user_my_booking', compact('myBookings','filter'));
 
 
+    }
+
+    public function getProfile()
+    {
+        $profile = User::select('id','name','email','avatar','phone_number','facebook','instagram','is_admin','status')->find(auth()->user()->id);
+        return $this->formatResponse(200, $profile, 'Success');
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $data = $this->validate($request, [
+            'full_name' => 'required',
+            'phone_number' => '',
+            'facebook' => '',
+            'instagram' => '',
+            'avatar' => 'mimes:jpeg,jpg,png,gif|max:10000'
+        ]);
+        $user = User::find(auth()->user()->id);
+        
+        DB::beginTransaction();
+        try {
+            $user->name = $request->full_name;
+            $user->phone_number = $request->phone;
+            $user->facebook = $request->facebook;
+            $user->instagram =  $request->instagram;
+            if ($request->avatar) $user->avatar = $this->updateImage($request,'avatar','public/profile/',$user->avatar);     
+            $user->save();     
+
+            DB::commit();
+
+            $message = 'Profile updated successfully';
+            return $this->setResponse(compact('message'));
+        }catch (ValidationException $e) {
+            DB::rollBack();
+
+            $this->status = $e->getMessage();
+            $this->code = $e->status;
+
+            $message = $e->errors();
+            return $this->setResponse(compact('message'));
+        }catch (Exception $e) {
+
+            DB::rollBack();
+            report($e);
+
+            $this->status = 'error';
+            $this->code = 500;
+
+            $message = $e->getMessage();
+            return $this->setResponse(compact('message'));
+        }
+              
+
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $user = User::find(auth()->user()->id);
+
+        $data = $this->validate($request, [
+            'old_password' => ['required'],
+            'password' => ['required'],
+            'password_confirmation' => ['required'],
+        ]);
+
+        if (!Hash::check($request->old_password, $user->password)) {
+            $this->status = 'error';
+            $this->code = 422;
+            $message = 'Wrong old password!';
+            return $this->setResponse(compact('message'));
+        }
+
+        if ($request->password !== $request->password_confirmation) {
+            $this->status = 'error';
+            $this->code = 422;
+            $message = 'Password confirm do not match!';
+            return $this->setResponse(compact('message'));
+        }
+
+        $user->password = bcrypt($request->password);
+        $user->save();
+
+        $message = 'Change password success!';
+        return $this->setResponse(compact('message'));
     }
 
 }

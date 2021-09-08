@@ -18,6 +18,8 @@
     <link rel="stylesheet" type="text/css" href="{{asset('assets/libs/lity/lity.min.css')}}"/>
     <link rel="stylesheet" type="text/css" href="{{asset('assets/libs/gijgo/css/gijgo.min.css')}}"/>
 
+
+
     @if(setting('style_rtl'))
         <link rel="stylesheet" type="text/css" href="{{asset('assets/css/style-rtl.css')}}"/>
         <link rel="stylesheet" type="text/css" href="{{asset('assets/css/responsive-rtl.css')}}"/>
@@ -43,6 +45,12 @@
         gtag('config', 'G-6XHQFTZBR3');
     </script>
     @stack('style')
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <style>
+        body {
+            font-family: 'Poppins';
+        }
+    </style>
 </head>
 
 <body dir="{{!setting('style_rtl') ?: 'rtl'}}">
@@ -265,51 +273,24 @@
         <div class="container">
             <div class="footer__top">
                 <div class="row">
-                    <div class="col-lg-5">
+                    <div class="col-lg-4">
                         <div class="footer__top__info">
-                            <a title="Logo" href="#" class="footer__top__info__logo"><img src="{{asset(setting('logo') ? 'uploads/' . setting('logo') : 'assets/images/assets/logo.png')}}" alt="logo"></a>
+                            <h1 title="Logo" href="#" class="footer__top__info__logo">UlinYu</h1>
                             <p class="footer__top__info__desc">{{__('Discover amazing things to do everywhere you go.')}}</p>
                             <div class="footer__top__info__app">
-                                <a title="Google Play" href="#" class="banner-apps__download__android"><img src="{{asset('assets/images/assets/google-play.png')}}" alt="Google Play"></a>
+                                <a title="Pesona Indonesia" href="#" class="banner-apps__download__android footer_logo_background"><img src="{{asset('assets/images/home/pesona-indonesia.png')}}" alt="Pesona Indonesia"></a>
+                                <a title="Disparbud Karawang" href="#" class="banner-apps__download__android"><img src="{{asset('assets/images/home/disparbud.png')}}" alt="Disparbud Karawang"></a>
+
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-2">
-                        <aside class="footer__top__nav">
-                            <h3>{{__('Company')}}</h3>
-                            <ul>
-                                <li><a href="#">{{__('About Us')}}</a></li>
-                                <li><a href="#">{{__('Blog')}}</a></li>
-                                <li><a href="#">{{__('Faqs')}}</a></li>
-                                <li><a href="#">{{__('Contact')}}</a></li>
-                            </ul>
-                        </aside>
-                    </div>
-                    <div class="col-lg-2">
-                        <aside class="footer__top__nav">
-                            <h3>{{__('Support')}}</h3>
-                            <ul>
-                                <li><a href="#">Get in Touch</a></li>
-                                <li><a href="#">Help Center</a></li>
-                                <li><a href="#">Live chat</a></li>
-                                <li><a href="#">How it works</a></li>
-                            </ul>
-                        </aside>
-                    </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-4">
                         <aside class="footer__top__nav footer__top__nav--contact">
-                            <h3>{{__('Contact Us')}}</h3>
-                            <p>{{__('Email: support@ulinyu.id')}}</p>
-                            <p>{{__('Phone:  (0267) 8401585')}}</p>
+                            <h3>{{__('Sosial Media')}}</h3>
                             <ul>
                                 <li>
                                     <a title="Facebook" href="#">
                                         <i class="la la-facebook la-24"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a title="Twitter" href="#">
-                                        <i class="la la-twitter la-24"></i>
                                     </a>
                                 </li>
                                 <li>
@@ -328,7 +309,7 @@
                 </div>
             </div><!-- .top-footer -->
             <div class="footer__bottom">
-                <p class="footer__bottom__copyright">{{now()->year}} &copy; <a href="{{__('https://www.linkedin.com/in/eryan-fauzan-1ba086190/')}}" target="_blank">{{__('Ulinyu.id')}}</a>. {{__('All rights reserved.')}}</p>
+                <p class="footer__bottom__copyright">{{now()->year}} &copy; <a href="{{__('https://www.linkedin.com/in/eryan-fauzan-1ba086190/')}}" target="_blank">{{__('Ulinyu.id')}}</a>. {{__('PT. WAHANA INTERNET NUSANTARA')}}</p>
             </div><!-- .top-footer -->
         </div><!-- .container -->
     </footer><!-- site-footer -->

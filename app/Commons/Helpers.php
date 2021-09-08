@@ -186,7 +186,7 @@ function getImageUrl($image_file)
 function getUserAvatar($image_file)
 {
     if ($image_file) {
-        return "/uploads/{$image_file}";
+        return $image_file;
     }
     return "/assets/images/default_avatar.svg";
 }

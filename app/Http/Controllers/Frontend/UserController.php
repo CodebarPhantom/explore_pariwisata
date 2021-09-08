@@ -14,10 +14,13 @@ use App\Models\Wishlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Traits\UrlImage;
+
 
 
 class UserController extends Controller
 {
+    use UrlImage;
     private $wishlist;
     private $response;
 
@@ -195,13 +198,11 @@ class UserController extends Controller
             'avatar' => 'mimes:jpeg,jpg,png,gif|max:10000'
         ]);
 
-        if ($request->hasFile('avatar')) {
-            $icon = $request->file('avatar');
-            $file_name = $this->uploadImage($icon, '');
-            $data['avatar'] = $file_name;
-        }
+       
 
         $user = User::find(Auth::id());
+        if ($request->avatar) $user->avatar = $this->updateImage($request,'avatar','public/profile/',$user->avatar);    
+
         $user->fill($data)->save();
 
         return back()->with('success', 'Update profile success!');

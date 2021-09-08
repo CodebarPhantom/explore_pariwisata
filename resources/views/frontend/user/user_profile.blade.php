@@ -20,7 +20,7 @@
                         <div class="member-avatar">
                             <img id="member_avatar" src="{{getUserAvatar(user()->avatar)}}" alt="Member Avatar">
                             <label for="upload_new">
-                                <input id="upload_new" type="file" name="avatar" value="{{__('Upload new')}}" accept="image/*">
+                                <input id="upload_new" type="file" name="avatar" accept="image/*">
                                 {{__('Upload new')}}
                             </label>
                         </div>

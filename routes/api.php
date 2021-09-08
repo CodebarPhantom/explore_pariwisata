@@ -6,6 +6,8 @@ use App\Http\Controllers\API\Home\HomeController;
 use App\Http\Controllers\API\Place\PlaceController;
 use App\Http\Controllers\API\User\UserController;
 use App\Http\Controllers\API\Auth\LogoutController;
+use App\Http\Controllers\API\Auth\RegisterController;
+use App\Http\Controllers\API\Auth\ResetPasswordController;
 use Illuminate\Http\Request;
 
 /*
@@ -80,7 +82,6 @@ $router->group([
     $router->get('/users/{user_id}/place', 'UserController@getPlaceByUser')->middleware('auth:api');
     $router->get('/users/{user_id}/place/wishlist', 'UserController@getPlaceByUser');
     $router->get('/users/{user_id}/place/wishlist', 'UserController@getPlaceByUser');
-    $router->post('/users/reset-password', 'Frontend\ResetPasswordController@sendMail')->name('user_forgot_password');
     //$router->post('/users/login', 'UserController@login');
 
     /**
@@ -110,8 +111,11 @@ $router->group([
     Route::namespace('Auth')->group(function () {
         Route::group(['prefix' => 'auth'], function () {
             Route::post('/login', [LoginController::class, 'index']);
+            Route::post('/register', [RegisterController::class, 'register']);
+            Route::post('/reset-password', [ResetPasswordController::class, 'sendMail']);
 
-           Route::middleware('auth:sanctum', 'api.user')->group(function () {
+
+            Route::middleware('auth:sanctum', 'api.user')->group(function () {
                 Route::post('/logout', [LogoutController::class, 'index']);
             });
         });
@@ -142,6 +146,11 @@ $router->group([
     Route::namespace('User')->group(function () {
         Route::group(['prefix' => 'user'], function () {
             Route::get('/my-booking', [UserController::class, 'myBooking'])->middleware('auth:sanctum', 'api.user');
+            Route::get('/my-profile', [UserController::class, 'getProfile'])->middleware('auth:sanctum', 'api.user');
+            Route::post('/update-profile', [UserController::class, 'updateProfile'])->middleware('auth:sanctum', 'api.user');
+            Route::post('/update-password', [UserController::class, 'updatePassword'])->middleware('auth:sanctum', 'api.user');
+
+
         });
     });
 
