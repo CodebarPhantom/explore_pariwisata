@@ -202,7 +202,8 @@ class BookingController extends Controller
             $booking->name = $name;
             $booking->phone_number = $phone;
             $booking->email = $email;
-            $booking->status = 2;            
+            $booking->status = 2;         
+            $booking->user_id = auth()->user()->id ?? NULL; 
             $booking->fill($data);
 
             if ($booking->save()) {                
