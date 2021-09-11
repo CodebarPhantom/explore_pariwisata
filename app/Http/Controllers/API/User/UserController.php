@@ -68,14 +68,67 @@ class UserController extends ApiController
         return $places;
     }*/
 
-    public function myBooking(Request $request)
+    public function myBookingUsed(Request $request)
     {
         $keyword = $request->keyword;
-        $status = $request->status;
+        /*$status = $request->status;
         $filter = [
             'keyword' => $keyword
-        ];
-        $myBookings = Booking::myBooking()->with(['detail'])
+        ];*/
+        $myBookings = Booking::myBooking()->used()->with(['detail'])
+        /*->when($filter['tourism'], function ($query, $filter) {
+            $query->where('tourism_id', '=', $filter['tourism']);
+        })*/
+        ->when($keyword, function ($query,$keyword) {
+            $query->where('tourism_name', 'like', '%' . $keyword . '%');
+        })
+        ->orderBy('created_at','desc')->paginate(10);
+
+        return $this->formatResponse(200, $myBookings, 'Success');
+
+
+        //$app_name = setting('app_name', 'Ulinyu.id');
+        //SEOMeta("My Bookings - {$app_name}");
+        //return view('frontend.user.user_my_booking', compact('myBookings','filter'));
+
+
+    }
+
+    public function myBookingPending(Request $request)
+    {
+        $keyword = $request->keyword;
+        /*$status = $request->status;
+        $filter = [
+            'keyword' => $keyword
+        ];*/
+        $myBookings = Booking::myBooking()->pending()->with(['detail'])
+        /*->when($filter['tourism'], function ($query, $filter) {
+            $query->where('tourism_id', '=', $filter['tourism']);
+        })*/
+        ->when($keyword, function ($query,$keyword) {
+            $query->where('tourism_name', 'like', '%' . $keyword . '%');
+        })
+        ->orderBy('created_at','desc')->paginate(10);
+
+        return $this->formatResponse(200, $myBookings, 'Success');
+
+
+        //$app_name = setting('app_name', 'Ulinyu.id');
+        //SEOMeta("My Bookings - {$app_name}");
+        //return view('frontend.user.user_my_booking', compact('myBookings','filter'));
+
+
+    }
+
+    
+    public function myBookingPaid(Request $request)
+    {
+        $keyword = $request->keyword;
+        /*$status = $request->status;
+        $filter = [
+            'keyword' => $keyword
+        ];*/
+        $myBookings = Booking::myBooking()->paid()->with(['detail'])
         /*->when($filter['tourism'], function ($query, $filter) {
             $query->where('tourism_id', '=', $filter['tourism']);
         })*/

@@ -148,7 +148,11 @@ $router->group([
 
     Route::namespace('User')->group(function () {
         Route::group(['prefix' => 'user'], function () {
-            Route::get('/my-booking', [UserController::class, 'myBooking'])->middleware('auth:sanctum', 'api.user');
+            Route::get('/my-booking-pending', [UserController::class, 'myBookingPending'])->middleware('auth:sanctum', 'api.user');
+            Route::get('/my-booking-paid', [UserController::class, 'myBookingPaid'])->middleware('auth:sanctum', 'api.user');
+            Route::get('/my-booking-used', [UserController::class, 'myBookingUsed'])->middleware('auth:sanctum', 'api.user');
+
+
             Route::get('/my-profile', [UserController::class, 'getProfile'])->middleware('auth:sanctum', 'api.user');
             Route::post('/update-profile', [UserController::class, 'updateProfile'])->middleware('auth:sanctum', 'api.user');
             Route::post('/update-password', [UserController::class, 'updatePassword'])->middleware('auth:sanctum', 'api.user');

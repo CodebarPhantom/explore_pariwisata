@@ -60,6 +60,20 @@ class Booking extends Model
         return $this->where('user_id', Auth()->user()->id);        
     }
 
+    public function scopePending($query)
+    {
+        return $query->where('status', 2);        
+    }
+    public function scopePaid($query)
+    {
+        return $query->where('status', 1);        
+    }
+
+    public function scopeUsed($query)
+    {
+        return $query->where('status', 1)->where('visit_time','!=',NULL); 
+    }
+
     public function getStatusNameAttribute()
     {
         return PAYMENTSTATUS[$this->status]['text'];
