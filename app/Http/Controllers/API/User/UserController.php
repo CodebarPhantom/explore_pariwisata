@@ -71,6 +71,7 @@ class UserController extends ApiController
     public function myBooking(Request $request)
     {
         $keyword = $request->keyword;
+        $status = $request->status;
         $filter = [
             'keyword' => $keyword
         ];

@@ -131,6 +131,7 @@ class UserController extends Controller
     public function pageMyBooking(Request $request)
     {
         $keyword = $request->keyword;
+        $status = $request->status;
 
         $filter = [
             'keyword' => $keyword
@@ -141,18 +142,26 @@ class UserController extends Controller
 
         //dd($filter['keyword']);
 
-        $myBookings = Booking::myBooking()->with(['detail'])
-        /*->when($filter['tourism'], function ($query, $filter) {
-            $query->where('tourism_id', '=', $filter['tourism']);
-        })*/
-        ->when($keyword, function ($query,$keyword) {
-            $query->where('tourism_name', 'like', '%' . $keyword . '%');
-        })
-        ->orderBy('created_at','desc')->paginate(10);
+        $myBookings = Booking::myBooking()->with(['detail']);
+
+        if ($status == 'pending'){
+            $myBookings->where('status',2);
+        }elseif($status == 'active'){
+            $myBookings->where('status',1);
+
+        }elseif($status == 'used'){
+            $myBookings->where('status',1)->where('visit_time','!=',NULL);
+        }
+
+        if($keyword){
+            $myBookings->where('tourism_name', 'like', '%' . $keyword . '%');
+        }
+
+        $myBookings = $myBookings->orderBy('created_at','desc')->paginate(10);
 
         $app_name = setting('app_name', 'Ulinyu.id');
         SEOMeta("My Bookings - {$app_name}");
-        return view('frontend.user.user_my_booking', compact('myBookings','filter'));
+        return view('frontend.user.user_my_booking', compact('myBookings','filter','status'));
 
 
     }

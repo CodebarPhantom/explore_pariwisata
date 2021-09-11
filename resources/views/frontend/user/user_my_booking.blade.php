@@ -69,13 +69,23 @@
             <div class="container">
                 <div class="member-place-wrap">
                     <div class="member-place-top flex-inline">
-                        <h1>{{__('Place')}}</h1>
+                        <h1>{{__('My Booking')}}</h1>
                     </div><!-- .member-place-top -->
                     @include('frontend.common.box-alert')
                     <div class="member-filter">
                         <div class="mf-left">
                             <form id="my_booking_filter" action="" method="GET">
-                                
+                                <div class="field-select">
+                                    <select class="my_place_filter" name="status">
+                                        <option value="">{{__('All Status')}}</option>
+                                        <option value="pending" {{isSelected('pending', $status)}}>Pending</option>
+                                        <option value="active" {{isSelected('active', $status)}}>Active</option>
+                                        <option value="used" {{isSelected('used', $status)}}>Used</option>
+
+
+                                    </select>
+                                    <i class="la la-angle-down"></i>
+                                </div>
                                 
                             </form>
                         </div><!-- .mf-left -->
@@ -168,7 +178,7 @@
 @push('scripts')
     <script>
         $('.my_place_filter').change(function () {
-            $('#my_place_filter').submit();
+            $('#my_booking_filter').submit();
         });
 
         $('.button-payment').click(function(){

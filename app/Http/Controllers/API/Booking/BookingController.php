@@ -187,9 +187,9 @@ class BookingController extends Controller
                 //$text_message = $request->message;
             } else {
                 Log::debug("Booking::submit: " . $request->type_form);
-                $name = user()->name;
-                $email = user()->email;
-                $phone = user()->phone_number;
+                $name = auth()->user()->name;
+                $email = auth()->user()->email;
+                $phone = auth()->user()->phone_number;
                 //$datetime = "";
                 //$numberofadult = $booking->numbber_of_adult;
                 //$numberofchildren = $booking->numbber_of_children;
