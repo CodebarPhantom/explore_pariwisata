@@ -9,10 +9,8 @@ use App\Models\Booking;
 use App\Models\BookingDetail;
 use App\Models\BookingPayment;
 use App\Models\BookingPaymentXendit;
-use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -22,6 +20,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ConnectException;
 use Xendit\Xendit;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Auth;
 
 
 class BookingController extends Controller
@@ -187,9 +186,9 @@ class BookingController extends Controller
                 //$text_message = $request->message;
             } else {
                 Log::debug("Booking::submit: " . $request->type_form);
-                $name = auth()->user()->name;
-                $email = auth()->user()->email;
-                $phone = auth()->user()->phone_number;
+                $name =auth()->user()->name;
+                $email = user()->email;
+                $phone = user()->phone_number;
                 //$datetime = "";
                 //$numberofadult = $booking->numbber_of_adult;
                 //$numberofchildren = $booking->numbber_of_children;

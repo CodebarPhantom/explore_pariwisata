@@ -98,8 +98,11 @@ $router->group([
         Route::post('/booking/code-unique', 'BookingController@getByCodeUnique');
         Route::post('/booking/visit-time', 'BookingController@visitTimeByCodeUnique');
         Route::post('/booking/handler-xendit', 'BookingController@bookingHandlerXendit');
-        Route::post('/booking/bookings', 'BookingController@booking'); // awas ini booking ga harus login kan
-        Route::post('/booking/payment','BookingController@bookingPayment');
+        Route::post('/booking/bookings', 'BookingController@booking')->middleware('auth:sanctum'); // awas ini booking ga harus login kan
+        Route::post('/booking/payment','BookingController@bookingPayment')->middleware('auth:sanctum');
+        Route::post('/booking/direct-bookings', 'BookingController@booking'); // awas ini booking ga harus login kan
+        Route::post('/booking/direct-payment','BookingController@bookingPayment');
+
 
 
     });
