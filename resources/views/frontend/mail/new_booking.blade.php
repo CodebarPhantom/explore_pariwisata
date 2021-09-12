@@ -115,7 +115,7 @@
 
     <!-- start logo -->
     <tr>
-      <td align="center" bgcolor="#74b9ff">
+      <td align="center" bgcolor="#bdc3c7">
         <!--[if (gte mso 9)|(IE)]>
         <table align="center" border="0" cellpadding="0" cellspacing="0" width="600">
         <tr>
@@ -141,7 +141,7 @@
 
     <!-- start hero -->
     <tr>
-      <td align="center" bgcolor="#74b9ff">
+      <td align="center" bgcolor="#bdc3c7">
         <!--[if (gte mso 9)|(IE)]>
         <table align="center" border="0" cellpadding="0" cellspacing="0" width="600">
         <tr>
@@ -166,7 +166,7 @@
 
     <!-- start copy block -->
     <tr>
-      <td align="center" bgcolor="#74b9ff">
+      <td align="center" bgcolor="#bdc3c7">
         <!--[if (gte mso 9)|(IE)]>
         <table align="center" border="0" cellpadding="0" cellspacing="0" width="600">
         <tr>
@@ -187,8 +187,8 @@
             <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
-                  <td align="left" bgcolor="#74b9ff" width="75%" style="padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"><strong>CODE</strong></td>
-                  <td align="left" bgcolor="#74b9ff" width="25%" style="padding: 12px;font-family:helvetica, arial; font-size: 16px; line-height: 24px;"><strong>{{ $detailReceipt['booking']->code_unique }}</strong></td>
+                  <td align="left" bgcolor="#bdc3c7" width="75%" style="padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"><strong>CODE</strong></td>
+                  <td align="left" bgcolor="#bdc3c7" width="25%" style="padding: 12px;font-family:helvetica, arial; font-size: 16px; line-height: 24px;"><strong>{{ $detailReceipt['booking']->code_unique }}</strong></td>
                 </tr>
                 @foreach ($detailReceipt['booking']->detail as $detailBooking)
                   <tr>
@@ -198,8 +198,8 @@
                 @endforeach
                 
                 <tr>
-                  <td align="left" width="75%" style="padding: 12px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-top: 2px dashed #74b9ff; border-bottom: 2px dashed #74b9ff;"><strong>Total</strong></td>
-                  <td align="left" width="25%" style="padding: 12px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-top: 2px dashed #74b9ff; border-bottom: 2px dashed #74b9ff;"><strong>{{ number_format($detailReceipt['booking']->grand_total) }}</strong></td>
+                  <td align="left" width="75%" style="padding: 12px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-top: 2px dashed #bdc3c7; border-bottom: 2px dashed #bdc3c7;"><strong>Total</strong></td>
+                  <td align="left" width="25%" style="padding: 12px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-top: 2px dashed #bdc3c7; border-bottom: 2px dashed #bdc3c7;"><strong>{{ number_format($detailReceipt['booking']->grand_total) }}</strong></td>
                 </tr>
               </table>
             </td>
@@ -218,7 +218,7 @@
 
     <!-- start receipt address block -->
     <tr>
-      <td align="center" bgcolor="#74b9ff" valign="top" width="100%">
+      <td align="center" bgcolor="#bdc3c7" valign="top" width="100%">
         <!--[if (gte mso 9)|(IE)]>
         <table align="center" border="0" cellpadding="0" cellspacing="0" width="600">
         <tr>
