@@ -37,6 +37,8 @@ class Booking extends Model
     const STATUS_DEACTIVE = 0;
     const STATUS_ACTIVE = 1;
     const STATUS_PENDING = 2;
+    const STATUS_USED = 4;
+
 
     protected $appends  = ['status_name','status_bs_color'];
 
@@ -66,7 +68,7 @@ class Booking extends Model
     }
     public function scopePaid($query)
     {
-        return $query->where('status', 1);        
+        return $query->where('status', 1)->where('visit_time',NULL);        
     }
 
     public function scopeUsed($query)
