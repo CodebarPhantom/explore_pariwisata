@@ -25,6 +25,7 @@ class Booking extends Model
         'status' => 'integer',
         'created_at'=>'datetime',
         'updated_at'=>'datetime',
+        'date'=>'date'
     ];
 
     const TYPE_BOOKING_FORM = 1;
@@ -72,7 +73,7 @@ class Booking extends Model
 
     public function scopeUsed($query)
     {
-        return $query->where('status', 1)->where('visit_time','!=',NULL); 
+        return $query->where('status', 1)->where('visit_time','!=',NULL)->orWhere('status',4); 
     }
 
     public function getStatusNameAttribute()

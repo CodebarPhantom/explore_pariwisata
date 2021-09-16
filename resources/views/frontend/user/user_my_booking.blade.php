@@ -128,7 +128,7 @@
                                     </td>   
                                     <td data-title="Wisata">
                                         <b>{{$myBooking->tourism_name}}</b>
-                                        <div>{{$myBooking->created_at->translatedFormat("d F \'y")}}</div>
+                                        <div>{{$myBooking->date == NULL ? $myBooking->created_at->translatedFormat("d F \'y") : $myBooking->date->translatedFormat("d F \'y")}}</div>
                                     </td>
                                     <td data-title="Jumlah Tiket">
                                         @foreach ($myBooking->detail as $bookingDetail)

@@ -18,6 +18,7 @@ use Illuminate\Validation\ValidationException;
 use DB, Exception;
 use App\Traits\CommonResponse;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 
 
 
@@ -229,6 +230,41 @@ class UserController extends ApiController
 
         $message = 'Change password success!';
         return $this->setResponse(compact('message'));
+    }
+
+    public function rescheduleBooking(Request $request)
+    {
+        
+        $date = $request->date.' 00:00:00';
+        $formatDate = Carbon::createFromFormat('d-m-Y H:i:s',  $date);
+
+        $booking = Booking::where('status',Booking::STATUS_ACTIVE)->where('code_unique',$request->code_unique)->first();
+
+        DB::beginTransaction();
+        try {
+            if($booking->is_reschedule === 0){
+                $booking->date = $formatDate;
+                $booking->is_reschedule = 1;
+                $booking->save();
+                $message = "Jadwal kedatangan kamu berhasil diubah";
+                DB::commit();
+            }else{
+                $message = "Kamu sudah pernah mengubah jadwal kedatangan untuk tiket ini";
+            }
+        }catch (Exception $e) {
+
+            DB::rollBack();
+            report($e);
+
+            $this->status = 'error';
+            $this->code = 500;
+
+            $message = $e->getMessage();
+            return $this->setResponse(compact('message'));
+        }
+        
+        return $this->formatResponse(200, $message, 'Success');
+
     }
 
 }
