@@ -150,7 +150,11 @@ class UserController extends Controller
             $myBookings->where('status',1)->where('visit_time','=',NULL);
 
         }elseif($status == 'used'){
-            $myBookings->where('status',1)->where('visit_time','!=',NULL)->orWhere('status',4);
+            //$myBookings->where('status',1)->where('visit_time','!=',NULL)->orWhere('status',4);
+            $myBookings->where('status',4);
+
+        }elseif($status == 'expired'){
+            $myBookings->where('status',3);
         }
 
         if($keyword){

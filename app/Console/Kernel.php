@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        \App\Console\Commands\AutoExpireTicket::class,
     ];
 
     /**
@@ -26,6 +26,8 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+
+        $schedule->command('ulinyu:auto-expire-ticket')->dailyAt('00:02')->runInBackground();
     }
 
     /**

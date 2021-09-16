@@ -38,6 +38,7 @@ class Booking extends Model
     const STATUS_DEACTIVE = 0;
     const STATUS_ACTIVE = 1;
     const STATUS_PENDING = 2;
+    const STATUS_EXPIRED = 3;
     const STATUS_USED = 4;
 
 
@@ -74,7 +75,7 @@ class Booking extends Model
 
     public function scopeUsed($query)
     {
-        return $query->where('status', 1)->where('visit_time','!=',NULL)->orWhere('status',4); 
+        return $query->where('status',4)->orWhere('status',3); 
     }
 
     public function getStatusNameAttribute()

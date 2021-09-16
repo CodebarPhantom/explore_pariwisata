@@ -81,8 +81,7 @@
                                         <option value="pending" {{isSelected('pending', $status)}}>Pending</option>
                                         <option value="active" {{isSelected('active', $status)}}>Active</option>
                                         <option value="used" {{isSelected('used', $status)}}>Used</option>
-
-
+                                        <option value="expired" {{isSelected('used', $status)}}>Expired</option>
                                     </select>
                                     <i class="la la-angle-down"></i>
                                 </div>
