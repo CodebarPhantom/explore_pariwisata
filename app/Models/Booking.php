@@ -4,6 +4,7 @@ namespace App\Models;
 
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Booking extends Model
 {
@@ -88,7 +89,7 @@ class Booking extends Model
 
     public function getSlugAttribute()
     {
-        return Str::slug($this->name);
+        return Str::slug($this->tourism_name);
     }
 
 }
