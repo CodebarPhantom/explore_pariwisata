@@ -973,10 +973,13 @@
         });
 
         // Datepicker
-        $('.datepicker').each(function () {
+        $('.datepicker').each(function () {           
+            var date = new Date();
+            date.setDate(date.getDate()-1);
             $(this).datepicker({
                 uiLibrary: 'bootstrap4',
-                autoclose: false
+                autoclose: false,
+                minDate:date
             });
         });
 
