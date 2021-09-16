@@ -201,6 +201,12 @@ class BookingController extends Controller
                 //$text_message = "";
             }
 
+          
+            $date = $request->date.' 00:00:00';
+            $formatDate = Carbon::createFromFormat('d-m-Y H:i:s',  $date);
+            
+
+
             $booking = new Booking();
             $booking->tourism_info_id = $request->tourism_info_id;
             $booking->tourism_name = $request->tourism_name;
@@ -210,9 +216,9 @@ class BookingController extends Controller
             $booking->email = $email;
             $booking->status = 2;         
             $booking->user_id = auth()->user()->id ?? NULL; 
-            $booking->date = Carbon::parse($request->date)->format('Y-m-d'); 
+            $booking->date = $formatDate->format('Y-m-d'); 
             $booking->fill($data);
-            $setQRCode .=$booking->date->format('Y-m-d').'/'.$booking->tourism_info_id;
+            $setQRCode .=$formatDate->format('Y-m-d').'/'.$booking->tourism_info_id;
 
 
             if ($booking->save()) {                
@@ -262,7 +268,7 @@ class BookingController extends Controller
 
                 $encryptSet = $this->setQrCode($setQRCode);                
 
-                $codeQR = $encryptSet.'/'.$booking->date->format('Y-m-d').'/'.$codeUnique;
+                $codeQR = $encryptSet.'/'.$formatDate->format('Y-m-d').'/'.$codeUnique;
 
                 //generate QR CODE
                 (string) QrCode::eyeColor(0, 176, 151, 46, 46, 151, 177)
