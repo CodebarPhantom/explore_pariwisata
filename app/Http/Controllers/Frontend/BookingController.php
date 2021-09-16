@@ -229,6 +229,12 @@ class BookingController extends Controller
 
                 /**BEGIN - TODO Pindahain saat pemabayaran */
                
+
+                /*for ($i=0; $i < 5; $i++) { 
+                    $encryptSet = base64_decode($encryptSet);
+                    Log::debug($encryptSet);
+                }*/
+        
             
                 //$bookingDispatch = Booking::where('code_unique',$codeUnique)->with('detail')->first();
                 //$details = ['email' => $email, 'subject' => 'Booking Details', 'booking'=>$bookingDispatch ];

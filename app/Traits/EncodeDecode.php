@@ -2,14 +2,17 @@
 
 namespace App\Traits;
 
+use Illuminate\Support\Facades\Log;
+
 trait EncodeDecode
 {
     public function setQrCode($set)
     {
         for ($i=0; $i < 5; $i++) { 
-            $setQRCode = base64_encode($set);
+            $set = base64_encode($set);
+            //Log::debug($set);
         }
 
-        return $setQRCode;
+        return $set;
     }
 }
