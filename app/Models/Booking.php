@@ -25,7 +25,7 @@ class Booking extends Model
         'status' => 'integer',
         'created_at'=>'datetime',
         'updated_at'=>'datetime',
-
+        'date'=>'datetime',
     ];
 
     const TYPE_BOOKING_FORM = 1;
