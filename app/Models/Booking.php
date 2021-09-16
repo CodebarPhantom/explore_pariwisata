@@ -10,7 +10,7 @@ class Booking extends Model
     protected $table = 'bookings';
 
     protected $fillable = [
-        'user_id', 'place_id', 'numbber_of_adult', 'numbber_of_children', 'date', 'time',
+        'user_id', 'place_id', 'numbber_of_adult', 'numbber_of_children',
         'name', 'email', 'phone_number', 'message', 'type', 'status','tourism_info_id','tourism_name','code_unique','visit_time'
     ];
 
@@ -25,7 +25,7 @@ class Booking extends Model
         'status' => 'integer',
         'created_at'=>'datetime',
         'updated_at'=>'datetime',
-        'date'=>'date'
+        'date'=>'datetime'
     ];
 
     const TYPE_BOOKING_FORM = 1;
@@ -40,7 +40,7 @@ class Booking extends Model
     const STATUS_USED = 4;
 
 
-    protected $appends  = ['status_name','status_bs_color'];
+    protected $appends  = ['status_name','status_bs_color','slug'];
 
     public function user()
     {
