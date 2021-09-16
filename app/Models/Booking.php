@@ -86,4 +86,9 @@ class Booking extends Model
         return PAYMENTSTATUS[$this->status]['bs_color'];
     }
 
+    public function getSlugAttribute()
+    {
+        return Str::slug($this->name);
+    }
+
 }
