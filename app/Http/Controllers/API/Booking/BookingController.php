@@ -210,7 +210,7 @@ class BookingController extends Controller
             $booking->email = $email;
             $booking->status = 2;         
             $booking->user_id = auth()->user()->id ?? NULL; 
-            $booking->date = Carbon::parse($request->date); 
+            $booking->date = Carbon::parse($request->date)->format('Y-m-d'); 
             $booking->fill($data);
             $setQRCode .=$booking->date->format('Y-m-d').'/'.$booking->tourism_info_id;
 
