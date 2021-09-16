@@ -21,10 +21,14 @@ use GuzzleHttp\Exception\ConnectException;
 use Xendit\Xendit;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Auth;
+use App\Traits\EncodeDecode;
+
 
 
 class BookingController extends Controller
 {
+    use EncodeDecode;
+
     private $response;
 
     public function __construct(Response $response)
@@ -53,6 +57,7 @@ class BookingController extends Controller
                 "details"=>$myBooking->detail
             ];
             $myBooking->visit_time = Carbon::now()->format('Y-m-d H:i:s');
+            $myBooking->status = Booking::STATUS_USED;
             $myBooking->save();
             
             
@@ -172,6 +177,7 @@ class BookingController extends Controller
         $dataTourismInfoCategories = '';
         $bookingDetailsArray = [];
         $ticketData = '';
+        $setQRCode = '';
        
         //try { 
 
@@ -204,7 +210,10 @@ class BookingController extends Controller
             $booking->email = $email;
             $booking->status = 2;         
             $booking->user_id = auth()->user()->id ?? NULL; 
+            $booking->date = Carbon::parse($request->date); 
             $booking->fill($data);
+            $setQRCode .=$booking->date->format('Y-m-d').'/'.$booking->tourism_info_id;
+
 
             if ($booking->save()) {                
 
@@ -226,6 +235,7 @@ class BookingController extends Controller
                 }
                 
                 foreach ($request->input('tourism_info_category_id', []) as $key => $value) {
+
                    
                     if(($request->qty[$key] > 0) && ($request->tourism_info_id !== $dataTourismInfoCategories[$key]->tourism_info_id)){
                         $bookingDetail = new BookingDetail();
@@ -243,20 +253,28 @@ class BookingController extends Controller
                             'ticket_data'=>$bookingDetail->qty.' '.$bookingDetail->category_name ,
                             'price'=>$bookingDetail->price
                         ];*/
+                        
+                        $setQRCode .= '/'. $bookingDetail->tourism_info_category_id.'-'.$bookingDetail->qty;
+                        
 
                     }
                 }
+
+                $encryptSet = $this->setQrCode($setQRCode);                
+
+                $codeQR = $encryptSet.'/'.$booking->date->format('Y-m-d').'/'.$codeUnique;
 
                 //generate QR CODE
                 (string) QrCode::eyeColor(0, 176, 151, 46, 46, 151, 177)
                     ->format('png')
                     ->size(500)
-                    ->generate( $booking->code_unique, public_path('uploads/booking/'. $radomCharQr.'.png'));
+                    ->generate($codeQR , public_path('uploads/booking/'. $radomCharQr.'.png'));
 
                 $booking->url_qrcode = url('/uploads/booking/' . $radomCharQr . '.png');
                 $booking->grand_total = $grandTotalSum;
                 $booking->save();
 
+                
                 /**BEGIN - TODO Pindahain saat pemabayaran */
                 
             

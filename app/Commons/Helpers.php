@@ -63,6 +63,8 @@ const PAYMENTSTATUS = [
     1=>['text'=>'Lunas', 'bs_color'=>'text-success'],
     2=>['text'=>'Pending', 'bs_color'=>'text-warning'],
     3=>['text'=>'Expired', 'bs_color'=>'text-danger'],
+    4=>['text'=>'Used', 'bs_color'=>'text-info'],
+
 ];
 
 function isRoute($name = '')

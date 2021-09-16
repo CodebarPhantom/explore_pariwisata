@@ -323,6 +323,11 @@
                                     @else
                                         <input type="hidden" name="type" value="{{ \App\Models\Booking::TYPE_BOOKING_FORM }}">
                                     @endguest
+                                    <div class="field-select field-date">
+                                        <span class="sl-icon"><i class="la la-calendar-alt"></i></span>
+                                        <input type="text" name="date" placeholder="Date *" class="datepicker" required autocomplete="off">
+                                        <i class="la la-angle-down"></i>
+                                    </div>
                                     <input type="hidden" name="tourism_info_id" value="{{$showTourism->id }}">
                                     <input type="hidden" name="tourism_name" value="{{$showTourism->name }}">
 

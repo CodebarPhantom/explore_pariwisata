@@ -147,10 +147,10 @@ class UserController extends Controller
         if ($status == 'pending'){
             $myBookings->where('status',2);
         }elseif($status == 'active'){
-            $myBookings->where('status',1);
+            $myBookings->where('status',1)->where('visit_time','=',NULL);
 
         }elseif($status == 'used'){
-            $myBookings->where('status',1)->where('visit_time','!=',NULL);
+            $myBookings->where('status',1)->where('visit_time','!=',NULL)->orWhere('status',4);
         }
 
         if($keyword){

@@ -120,7 +120,7 @@
                                 <tr>
                                     <td data-title=""></td>
                                     <td data-title="QR Code">
-                                        @if ($myBooking->status === 1)
+                                        @if ($myBooking->status === 1 || $myBooking->status === 4)
                                             <a href="#" class="pop" data-image="{{$myBooking->url_qrcode}}" data-code="{{$myBooking->code_unique}}">
                                                 <img alt="QR Code {{$myBooking->code_unique}}" width="100px" src="{{ $myBooking->url_qrcode }}">
                                             </a>
@@ -140,7 +140,7 @@
                                     <td data-title="Code">{{$myBooking->code_unique}}</td>
                                                                      
                                     <td data-title="Action">
-                                        @if ($myBooking->status === 1)
+                                        @if ($myBooking->status === 1 )
                                         <a href="{{route('user_booking_receipt', $myBooking->code_unique)}}" class="view" title="{{__('Print')}}"><i class="la la-print"></i></a>
                                         <a href="#" class="pop view" data-image="{{$myBooking->url_qrcode}}" data-code="{{$myBooking->code_unique}}" title="{{__('Show QR')}}"><i class="la la-qrcode"></i></a>
                                         @elseif($myBooking->status === 2)
@@ -149,6 +149,7 @@
                                                 <input id="code-unique" name="code_unique" type="hidden" value="{{ $myBooking->code_unique }}">
                                                 <button type="submit" class="btn bg-transparent view button-payment" title="Pembayaran"><i class="la la-money-bill text-success"></i></button>
                                             </form>
+                                        @elseif($myBooking->status === 4)
                                         @endif
 
                                     </td>
