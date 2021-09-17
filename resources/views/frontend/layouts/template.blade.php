@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <link rel="stylesheet" type="text/css" href="{{asset('assets/fonts/jost/stylesheet.css')}}"/>
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/line-awesome.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/fontawesome.min.css')}}">
+
     <link rel="stylesheet" type="text/css" href="{{asset('assets/libs/bootstrap/css/bootstrap.min.css')}}"/>
     <link rel="stylesheet" type="text/css" href="{{asset('assets/libs/slick/slick-theme.css')}}"/>
     <link rel="stylesheet" type="text/css" href="{{asset('assets/libs/slick/slick.css')}}"/>

@@ -220,7 +220,22 @@
                                 @endforeach
                                 </tbody>
                             </table>
+                        </div><!-- .place__box --> 
+                        @if (!empty($showTourism->amenities))
+                        <div class="place__box place__box-open">
+                            <h3 class="place__title--additional">
+                                {{__('Fasilitas')}}
+                            </h3>
+                            <div class="row">
+                                @foreach( $showTourism->amenities as $amenity)
+                                    <div class="col-md-2">
+                                        <i class="{{ $amenity->icon }}"></i>  {{ $amenity->name }} 
+                                    </div>
+                                @endforeach                      
+                            </div>
                         </div><!-- .place__box -->     
+                        @endif
+                        
                         <div class="place__box">
                             <h3>{{__('Info Kontak')}}</h3>
                             <ul class="place__contact">
