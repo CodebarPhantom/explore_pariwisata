@@ -288,7 +288,9 @@
                     </div>
                     <div class="col-lg-4">
                         <aside class="footer__top__nav footer__top__nav--contact">
-                            <h3>{{__('Sosial Media')}}</h3>
+                            <h1 title="Logo" href="#" class="footer__top__info__logo">{{__('Sosial Media')}}</h1>
+                            <p class="footer__top__info__desc">{{__('Dapatkan informasi terkini di Sosial Media Kami')}}</p>
+
                             <ul>
                                 <li>
                                     <a title="Facebook" href="#">

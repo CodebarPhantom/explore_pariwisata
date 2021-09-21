@@ -87,6 +87,10 @@ $router->group([
     $router->get('/category/{slug}', 'CategoryController@listPlace')->name('category_list');
     $router->get('/categories', 'CategoryController@search')->name('category_search');
 
+
+    $router->get("/privacy-policy", function(){
+        return view("frontend.page.privacy-policy");
+     });
 });
 
 /*
