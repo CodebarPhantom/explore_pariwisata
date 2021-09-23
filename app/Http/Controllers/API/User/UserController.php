@@ -12,13 +12,19 @@ use App\Http\Controllers\ApiController;
 use App\Commons\Response;
 use Illuminate\Http\Request;
 use App\Models\Booking;
+use App\Models\BookingDetail;
 use App\Models\User;
 use App\Traits\UrlImage;
 use Illuminate\Validation\ValidationException;
-use DB, Exception;
+use DB, Exception,Storage,Str;
 use App\Traits\CommonResponse;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use App\Traits\EncodeDecode;
+use Illuminate\Support\Facades\Log;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+
+
 
 
 
@@ -26,7 +32,7 @@ use Carbon\Carbon;
 class UserController extends ApiController
 {
 
-    use UrlImage, CommonResponse;
+    use UrlImage, CommonResponse, EncodeDecode;
 
     /*private $response;
 
@@ -171,7 +177,7 @@ class UserController extends ApiController
             $user->phone_number = $request->phone;
             $user->facebook = $request->facebook;
             $user->instagram =  $request->instagram;
-            if ($request->avatar) $user->avatar = $this->updateImage($request,'avatar','public/profile/',$user->avatar);     
+            if ($request->avatar) $user->avatar = $this->updateImage($request,'avatar','public/profile',$user->avatar);     
             $user->save();     
 
             DB::commit();
@@ -243,6 +249,32 @@ class UserController extends ApiController
         DB::beginTransaction();
         try {
             if($booking->is_reschedule === 0){
+
+                //Storage::delete($booking->url_qrcode);
+                //Log::debug(public_path('uploads/booking'. str_replace(url('uploads/booking/'),'', $booking->url_qrcode)));
+                //Storage::delete(public_path('uploads/booking'. str_replace(url('uploads/booking/'),'', $booking->url_qrcode)));
+
+                
+                $setQRCode = '';
+                $radomCharQr = Str::random(40);
+                $setQRCode .=$formatDate->format('Y-m-d').'/'.$booking->tourism_info_id;
+
+                $bookingDetails = BookingDetail::where('booking_id',$booking->id)->get();
+                foreach ($bookingDetails as $bookingDetail) {
+                    $setQRCode .= '/'. $bookingDetail->tourism_info_category_id.'-'.$bookingDetail->qty;
+                }
+
+                $encryptSet = $this->setQrCode($setQRCode);
+                $codeQR = $encryptSet.'/'.$formatDate->format('Y-m-d').'/'.$booking->code_unique;
+
+
+                //generate QR CODE
+                (string) QrCode::eyeColor(0, 176, 151, 46, 46, 151, 177)
+                ->format('png')
+                ->size(500)
+                ->generate($codeQR , public_path('uploads/booking/'. $radomCharQr.'.png'));
+
+                $booking->url_qrcode = url('/uploads/booking/' . $radomCharQr . '.png');
                 $booking->date = $formatDate;
                 $booking->is_reschedule = 1;
                 $booking->save();

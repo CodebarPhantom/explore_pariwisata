@@ -214,7 +214,7 @@ class UserController extends Controller
        
 
         $user = User::find(Auth::id());
-        if ($request->avatar) $user->avatar = $this->updateImage($request,'avatar','public/profile/',$user->avatar);    
+        if ($request->avatar) $user->avatar = $this->updateImage($request,'avatar','public/profile',$user->avatar);    
 
         $user->fill($data)->save();
 
