@@ -47,7 +47,7 @@ class AutoExpireTicket extends Command
         DB::beginTransaction();
         try {     
             foreach ($bookings as $booking) {
-                Log::debug($booking);
+                //Log::debug($booking);
                 $booking->status = 3;
                 $booking->save();
             }
