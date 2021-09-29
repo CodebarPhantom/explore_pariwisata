@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\Booking;
 
 
 use App\Commons\Response;
+use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\BookingDetail;
@@ -22,18 +23,21 @@ use Xendit\Xendit;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Auth;
 use App\Traits\EncodeDecode;
+use App\Traits\CommonResponse;
 
 
 
-class BookingController extends Controller
+
+class BookingController extends ApiController
 {
-    use EncodeDecode;
+    use EncodeDecode,CommonResponse;
 
-    private $response;
+ 
 
-    public function __construct(Response $response)
+    public function __construct()
     {
-        $this->response = $response;
+        //$this->response = $response;
+        parent::__construct();
 
         $xenditKey = env('XENDIT_IS_PRODUCTION') ? env('XENDIT_KEY_PRODUCTION') : env('XENDIT_KEY_SB');
         Xendit::setApiKey($xenditKey);
@@ -61,7 +65,7 @@ class BookingController extends Controller
             $myBooking->save();
             
             
-            return $this->response->formatResponse(200,  $response, "success");
+            return $this->formatResponse(200,  $response, "success");
         }else{
             return response()->json(
                 [
@@ -72,9 +76,33 @@ class BookingController extends Controller
                 422
             );
 
-            //return $this->response->formatResponse(422,  "Ticket sudah terpakai / Belum melakukan Pembayaran", "Ticket sudah terpakai / Belum melakukan Pembayaran");
+            //return $this->formatResponse(422,  "Ticket sudah terpakai / Belum melakukan Pembayaran", "Ticket sudah terpakai / Belum melakukan Pembayaran");
         }
         
+
+    }
+
+    public function checkCodeUnique(Request $request)
+    {
+        $myBooking = Booking::with(['detail'])->where('code_unique', $request->code_unique)->first();
+        $response = 
+            [
+                'id'=>$myBooking->id,
+                'tourism_info_id'=>$myBooking->tourism_info_id,
+                "tourism_name"=>$myBooking->tourism_name,
+                "code_unique"=>$myBooking->code_unique,
+                "grand_total"=>$myBooking->grand_total,
+                "status"=>$myBooking->status,
+                "status_name"=>$myBooking->status_name,
+                "status_bs_color"=>$myBooking->status_bs_color,
+                "details"=>$myBooking->detail
+            ];
+
+            return $this->setResponse(compact('response'));
+
+
+           // return $this->formatResponse(200,  $response, "success");
+
 
     }
 
@@ -83,7 +111,7 @@ class BookingController extends Controller
         $myBooking->visit_time = Carbon::now()->format('Y-m-d H:i:s');
         $myBooking->save();
         
-        return $this->response->formatResponse(200,  "Waktu Kunjungan sudah tercatat", "Waktu Kunjungan $request->code_unique sudah tercatat");
+        return $this->formatResponse(200,  "Waktu Kunjungan sudah tercatat", "Waktu Kunjungan $request->code_unique sudah tercatat");
 
     }
 
@@ -147,7 +175,7 @@ class BookingController extends Controller
 
 
         }
-        //return $this->response->formatResponse(200, 'ya', 'Success');
+        //return $this->formatResponse(200, 'ya', 'Success');
         
     }
 
@@ -310,10 +338,10 @@ class BookingController extends Controller
 
             
 
-            return $this->response->formatResponse(200, $data, 'Ticket Tersedia silahkan klik "Selanjutnya"');
+            return $this->formatResponse(200, $data, 'Ticket Tersedia silahkan klik "Selanjutnya"');
        /* } catch (Exception $e) {
             report($e);
-            return $this->response->formatResponse(500, $booking, 'An error occurred. Please try again.');
+            return $this->formatResponse(500, $booking, 'An error occurred. Please try again.');
         }*/
         }
     }
@@ -332,7 +360,7 @@ class BookingController extends Controller
         $createInvoice = \Xendit\Invoice::create($params);  
         $url = $createInvoice['invoice_url'];
 
-        return $this->response->formatResponse(200, $url, 'OK');
+        return $this->formatResponse(200, $url, 'OK');
 
 
     }
