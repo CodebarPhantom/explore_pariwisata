@@ -8,6 +8,7 @@ use App\Http\Controllers\API\User\UserController;
 use App\Http\Controllers\API\Auth\LogoutController;
 use App\Http\Controllers\API\Auth\RegisterController;
 use App\Http\Controllers\API\Auth\ResetPasswordController;
+use App\Http\Controllers\API\Wishlist\WishlistController;
 use Illuminate\Http\Request;
 
 /*
@@ -162,5 +163,17 @@ $router->group([
 
         });
     });
+
+    Route::namespace('Wishlist')->group(function () {
+        Route::middleware('auth:sanctum', 'api.user')->prefix('wishlist')->group(function () {
+            Route::get('/show', [WishlistController::class, 'show']);
+            Route::post('/store', [WishlistController::class, 'store']);
+
+
+        });
+
+    });
+
+
 
 });
