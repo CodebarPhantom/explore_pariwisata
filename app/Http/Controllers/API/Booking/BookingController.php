@@ -95,7 +95,13 @@ class BookingController extends ApiController
                 "status"=>$myBooking->status,
                 "status_name"=>$myBooking->status_name,
                 "status_bs_color"=>$myBooking->status_bs_color,
-                "details"=>$myBooking->detail
+                "details"=>$myBooking->detail,
+                "url_qrcode"=>$myBooking->url_qrcode,
+                "name"=>$myBooking->name,
+                "date"=>$myBooking->date,
+                "email"=>$myBooking->email,
+                "created_at"=>$myBooking->created_at,
+                "is_reschedule"=>$myBooking->is_reschedule,
             ];
 
             return $this->setResponse(compact('response'));
