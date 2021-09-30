@@ -98,9 +98,9 @@ class BookingController extends ApiController
                 "details"=>$myBooking->detail,
                 "url_qrcode"=>$myBooking->url_qrcode,
                 "name"=>$myBooking->name,
-                "date"=>$myBooking->date,
+                "date"=>$myBooking->date->format('Y-m-d H:i:s'),
                 "email"=>$myBooking->email,
-                "created_at"=>$myBooking->created_at,
+                "created_at"=>$myBooking->created_at->format('Y-m-d H:i:s'),
                 "is_reschedule"=>$myBooking->is_reschedule,
             ];
 
