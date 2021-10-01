@@ -104,6 +104,10 @@
         <div class="slick-sliders">
             <div class="slick-slider photoswipe" data-item="1" data-arrows="false" data-itemScroll="1" data-dots="false" data-infinite="false" data-centerMode="false" data-centerPadding="0">                
                 <div class="place-slider__item photoswipe-item"><a href="{{$showTourism->url_cover_image}}" data-height="900" data-width="1200" data-caption="{{$showTourism->name}}"><img src="{{$showTourism->url_cover_image}}" alt="{{$showTourism->name}}"></a></div>
+                @foreach ($showTourism->galleries as $gallery)
+                    <div class="place-slider__item photoswipe-item"><a href="{{$gallery->url_image}}" data-height="900" data-width="1200" data-caption="{{$showTourism->name}}"><img src="{{$gallery->url_image}}" alt="{{$showTourism->name}}"></a></div>
+                @endforeach
+
              </div>
              <div class="place-gallery">
                 <a class="show-gallery" title="Gallery" href="#">
