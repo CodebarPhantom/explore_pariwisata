@@ -40,7 +40,11 @@ class HomeController extends Controller
 
         try {
             $httpClient = new Client(['base_uri' => env('BACKEND_PARIWISATA')]);
-            $response = $httpClient->request('GET', 'tourism-info');
+            $response = $httpClient->request('GET', 'tourism-info', [
+                "query" => [
+                    "tourism_name" => request('tourism_name'),
+                ],
+            ]);
             $codeResponse = $response->getStatusCode();
             $dataTourismInfos = json_decode($response->getBody());
         } catch (ConnectException $e) {
@@ -68,10 +72,5 @@ class HomeController extends Controller
             'data' => $dataTourismInfos,
             'message' =>  "OK",
         ],200);
-        //return view("frontend.home.home_{$template}", compact('codeResponse','dataTourismInfos','errorInfoResponse'));
-        
-        
     }
-
-
 }
