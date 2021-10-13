@@ -42,7 +42,9 @@ class HomeController extends Controller
             $httpClient = new Client(['base_uri' => env('BACKEND_PARIWISATA')]);
             $response = $httpClient->request('GET', 'tourism-info', [
                 "query" => [
+                    "tourism_category" => request('tourism_category'),
                     "tourism_name" => request('tourism_name'),
+
                 ],
             ]);
             $codeResponse = $response->getStatusCode();
