@@ -9,7 +9,7 @@ use App\Http\Controllers\API\Auth\LogoutController;
 use App\Http\Controllers\API\Auth\RegisterController;
 use App\Http\Controllers\API\Auth\ResetPasswordController;
 use App\Http\Controllers\API\Wishlist\WishlistController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\API\Review\ReviewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -141,13 +141,23 @@ $router->group([
     Route::namespace('Place')->group(function () {
         Route::group(['prefix' => 'place'], function () {
             Route::get('/{slug}', [PlaceController::class, 'detail']);
-
            /* Route::middleware('auth:sanctum', 'api.user')->group(function () {
                 Route::get('/data', [LoginController::class, 'show']);
                 Route::post('/logout', [LogoutController::class, 'index']);
             });*/
         });
     });
+
+    Route::namespace('Review')->group(function () {
+
+        Route::group(['prefix' => 'review'], function () {
+            Route::get('/tourism-show',[ReviewController::class,'showTourismReview']);
+            Route::post('/tourism-store',[ReviewController::class,'storeTourismReview'])->middleware('auth:sanctum', 'api.user');
+
+        });
+
+    });
+
 
     Route::namespace('User')->group(function () {
         Route::group(['prefix' => 'user'], function () {

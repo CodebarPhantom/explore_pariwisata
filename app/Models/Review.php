@@ -6,6 +6,8 @@ namespace App\Models;
 use App\Commons\APICode;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
+use App\Models\ReviewImage;
+use Carbon\Carbon;
 
 class Review extends Model
 {
@@ -22,6 +24,7 @@ class Review extends Model
         'place_id' => 'integer',
         'score' => 'float',
         'status' => 'integer',
+        'created_at'=>'datetime'
     ];
 
     const STATUS_ACTIVE = 1;
@@ -29,12 +32,23 @@ class Review extends Model
 
     public function user()
     {
-        return $this->hasOne(User::class, 'id', 'user_id');
+        return $this->hasOne(User::class, 'id', 'user_id')->select('id','name','email');
     }
 
     public function place()
     {
         return $this->hasOne(Place::class, 'id', 'place_id');
+    }
+    
+    public function images()
+    {
+        return $this->hasMany(ReviewImage::class);
+    }
+
+
+    public function setCreatedAtAttribute($value)
+    {
+        $this->attributes['created_at'] = Carbon::parse($value)->translatedFormat('d M Y');
     }
 
     public function validateCreate($data)
