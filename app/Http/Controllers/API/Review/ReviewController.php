@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\Review;
 
 
 use App\Http\Controllers\ApiController;
+use App\Models\Booking;
 use App\Models\Review;
 use App\Models\ReviewImage;
 use Illuminate\Http\Request;
@@ -21,11 +22,13 @@ class ReviewController extends ApiController
         $rating = $request->rating;
         $comment = $request->comment;
         $tourismInfoName = $request->tourism_info_name;
+        $bookingId = $request->booking_id;
         
         try {
             $review = new Review();
             $review->user_id =  auth()->user()->id;
             $review->tourism_info_id = $tourismInfoId;
+            $review->tourism_info_name = $tourismInfoName;
             $review->rating = $rating;
             $review->comment = $comment;
             $review->status = Review::STATUS_ACTIVE;
@@ -45,6 +48,10 @@ class ReviewController extends ApiController
                     $reviewImage->save();
                 }
             }
+
+            $booking = Booking::select('id','is_review')->findOrFail($bookingId);
+            $booking->is_review = Review::STATUS_ACTIVE;
+            $booking->save();
 
             $message = "Terimakasih telah memberi ulasan untuk pariwisata $tourismInfoName";
 
@@ -94,7 +101,8 @@ class ReviewController extends ApiController
     public function showUserReview(Request $request)
     {
         try {
-            $reviews = Review::with('user','images')->where('user_id',auth()->user()->id)->paginate(5);
+            $reviews = Review::with('user','images')
+            ->where('user_id',auth()->user()->id)->paginate(5);
 
         } catch (Exception $e) {
             report($e);
