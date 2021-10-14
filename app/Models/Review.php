@@ -46,10 +46,10 @@ class Review extends Model
     }
 
 
-    public function setCreatedAtAttribute($value)
+   /* public function setCreatedAtAttribute($value)
     {
         $this->attributes['created_at'] = Carbon::parse($value)->translatedFormat('d M Y');
-    }
+    }*/
 
     public function validateCreate($data)
     {

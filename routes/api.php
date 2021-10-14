@@ -152,7 +152,9 @@ $router->group([
 
         Route::group(['prefix' => 'review'], function () {
             Route::get('/tourism-show',[ReviewController::class,'showTourismReview']);
+            Route::get('/user-show',[ReviewController::class,'showUserReview'])->middleware('auth:sanctum', 'api.user');
             Route::post('/tourism-store',[ReviewController::class,'storeTourismReview'])->middleware('auth:sanctum', 'api.user');
+
 
         });
 

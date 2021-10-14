@@ -75,8 +75,26 @@ class ReviewController extends ApiController
                 $query->where('rating', $rating);
             })
             
-            ->where('tourism_info_id',$tourismInfoId)->get();
+            ->where('tourism_info_id',$tourismInfoId)->paginate(5);
 
+
+        } catch (Exception $e) {
+            report($e);
+            $this->status = 'error';
+            $this->code = 500;
+
+            $message = $e->getMessage();
+            return $this->setResponse(compact('message'));
+        }
+
+        return $this->setResponse(compact('reviews'));
+
+    }
+
+    public function showUserReview(Request $request)
+    {
+        try {
+            $reviews = Review::with('user','images')->where('user_id',auth()->user()->id)->paginate(5);
 
         } catch (Exception $e) {
             report($e);
