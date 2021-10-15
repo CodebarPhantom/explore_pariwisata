@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Laravel\Sanctum\HasApiTokens;
-
+use Carbon\Carbon;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -110,6 +110,7 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->password = Hash::make($data->password);
         $this->phone_number = $data->phone_number;
         $this->gender = $data->gender;
+        $this->dob = carbon::parse($data->dob)->format('Y-m-d');
         $this->survey = json_encode( array(
             'tourism_name'=>$data->survey_tourism,
             'location'=>$data->survey_location,
