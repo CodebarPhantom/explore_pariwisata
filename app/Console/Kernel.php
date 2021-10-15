@@ -14,6 +14,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         \App\Console\Commands\AutoExpireTicket::class,
+        \App\Console\Commands\AutoVoidTicket::class,
+
     ];
 
     /**
@@ -27,7 +29,9 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
 
+        $schedule->command('ulinyu:auto-void-ticket')->dailyAt('00:01')->runInBackground();
         $schedule->command('ulinyu:auto-expire-ticket')->dailyAt('00:02')->runInBackground();
+
     }
 
     /**
