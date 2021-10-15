@@ -22,15 +22,15 @@ class PlaceController extends Controller
             $codeResponse = $response->getStatusCode();
             $showTourism = json_decode($response->getBody());
 
-            $reviews = Review::select('id','name',DB::raw('round(AVG(quantity),0) as quantity'))->where('tourism_info_id',$showTourism->id)
+            /*$reviews = Review::select('id','name',DB::raw('round(AVG(quantity),0) as quantity'))->where('tourism_info_id',$showTourism->id)
             ->groupBy('id','name')
-            ->get();//->avg('rating');
+            ->get();//->avg('rating');*/
 
-            return $reviews;
+           // return $reviews;
 
             //array_push($showTourism, 'yayaya');
-            $showTourism->rating = $reviews;
-            json_encode($showTourism);
+            //$showTourism->rating = $reviews;
+            //json_encode($showTourism);
 
             //return json_encode($showTourism);
 
