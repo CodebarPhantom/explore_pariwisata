@@ -5,19 +5,8 @@ namespace App\Http\Controllers\API\Home;
 
 use App\Commons\Response;
 use App\Http\Controllers\Controller;
-use App\Models\Amenities;
-use App\Models\Category;
-use App\Models\City;
-use App\Models\Country;
-use App\Models\Place;
-use App\Models\PlaceType;
-use App\Models\Post;
-use App\Models\Testimonial;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Session;
+use App\Models\Review;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ConnectException;
@@ -49,6 +38,13 @@ class HomeController extends Controller
             ]);
             $codeResponse = $response->getStatusCode();
             $dataTourismInfos = json_decode($response->getBody());
+
+            foreach ($dataTourismInfos as $dataTourismInfo) {
+                $avgRating = Review::select(DB::raw('CAST(IFNULL(AVG(rating),0) AS DECIMAL(2,1)) as avg_rating'))->where('tourism_info_id',$dataTourismInfo->id)->first();
+                $dataTourismInfo->avg_rating =  $avgRating->avg_rating;
+            }
+
+            json_encode($dataTourismInfos);
         } catch (ConnectException $e) {
             $codeResponse = $e->getCode();
             $errorInfoResponse = 'Connection Exception | Conncetion Refused';
