@@ -36,7 +36,8 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected $casts = [
         'is_admin' => 'integer',
-        'status' => 'integer'
+        'status' => 'integer',
+        'survey'=> 'array'
     ];
 
     const STATUS_DEACTIVE = 0;
@@ -107,6 +108,15 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->name = $data->name;
         $this->email = $data->email;
         $this->password = Hash::make($data->password);
+        $this->phone_number = $data->phone_number;
+        $this->gender = $data->gender;
+        $this->survey = json_encode( array(
+            'tourism_name'=>$data->survey_tourism,
+            'location'=>$data->survey_location,
+            'reason'=>$data->survey_reason
+        ));
+
+
         $this->save();
         return $this;
     }
