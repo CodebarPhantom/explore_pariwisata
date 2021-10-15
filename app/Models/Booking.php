@@ -70,12 +70,17 @@ class Booking extends Model
     }
     public function scopePaid($query)
     {
-        return $query->where('status', 1)->where('visit_time',NULL);        
+        return $query->where('status', 1)->orWhere('status',3);        
     }
 
     public function scopeUsed($query)
     {
-        return $query->where('status',4)->orWhere('status',3); 
+        return $query->where('status',4); 
+    }
+
+    public function scopeVoid($query)
+    {
+        return $query->where('status',0); 
     }
 
     public function getStatusNameAttribute()

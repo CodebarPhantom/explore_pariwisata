@@ -74,16 +74,16 @@ class ReviewController extends ApiController
 
         $tourismInfoId = $request->tourism_info_id;
         $rating = $request->filter_rating;
-
+        $order = $request->filter_order == 'newer' ? 'DESC' : 'ASC';
 
         try {
             $reviews = Review::with('user','images')
             ->when($rating, function ($query, $rating) {
                 $query->where('rating', $rating);
-            })
-            
-            ->where('tourism_info_id',$tourismInfoId)->paginate(5);
-
+            })            
+            ->where('tourism_info_id',$tourismInfoId)
+            ->orderBy('created_at',$order)
+            ->paginate(5);
 
         } catch (Exception $e) {
             report($e);

@@ -101,6 +101,19 @@ class UserController extends ApiController
 
     }
 
+    public function myBookingVoid(Request $request)
+    {
+        $keyword = $request->keyword;
+
+        $myBookings = Booking::myBooking()->void()->with(['detail'])
+        ->when($keyword, function ($query,$keyword) {
+            $query->where('tourism_name', 'like', '%' . $keyword . '%');
+        })
+        ->orderBy('created_at','desc')->paginate(10);
+
+        return $this->formatResponse(200, $myBookings, 'Success');
+    }
+
     public function myBookingPending(Request $request)
     {
         $keyword = $request->keyword;

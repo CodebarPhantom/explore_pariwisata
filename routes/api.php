@@ -166,6 +166,8 @@ $router->group([
             Route::get('/my-booking-pending', [UserController::class, 'myBookingPending'])->middleware('auth:sanctum', 'api.user');
             Route::get('/my-booking-paid', [UserController::class, 'myBookingPaid'])->middleware('auth:sanctum', 'api.user');
             Route::get('/my-booking-used', [UserController::class, 'myBookingUsed'])->middleware('auth:sanctum', 'api.user');
+            Route::get('/my-booking-void', [UserController::class, 'myBookingVoid'])->middleware('auth:sanctum', 'api.user');
+
             
             
             
