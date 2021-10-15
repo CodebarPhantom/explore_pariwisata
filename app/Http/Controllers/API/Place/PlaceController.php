@@ -9,6 +9,7 @@ use App\Models\Review;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ConnectException;
 use Illuminate\Support\Facades\Log;
+use DB;
 
 class PlaceController extends Controller
 {
@@ -22,15 +23,22 @@ class PlaceController extends Controller
             $codeResponse = $response->getStatusCode();
             $showTourism = json_decode($response->getBody());
 
-            /*$reviews = Review::select('id','name',DB::raw('round(AVG(quantity),0) as quantity'))->where('tourism_info_id',$showTourism->id)
-            ->groupBy('id','name')
-            ->get();//->avg('rating');*/
+            $reviews = Review::select(DB::raw('CAST(IFNULL(AVG(rating),0) AS DECIMAL(2,1)) as avg_rating'))
+            ->addSelect([
+                'count_rating_1' => Review::selectRaw('count(rating)')->where('rating',1)->where('tourism_info_id',$showTourism->id),
+                'count_rating_2' => Review::selectRaw('count(rating)')->where('rating',2)->where('tourism_info_id',$showTourism->id),
+                'count_rating_3' => Review::selectRaw('count(rating)')->where('rating',3)->where('tourism_info_id',$showTourism->id),
+                'count_rating_4' => Review::selectRaw('count(rating)')->where('rating',4)->where('tourism_info_id',$showTourism->id),
+                'count_rating_5' => Review::selectRaw('count(rating)')->where('rating',5)->where('tourism_info_id',$showTourism->id),
+            ])
+            ->where('tourism_info_id',$showTourism->id)
+            ->first();//->avg('rating');
 
-           // return $reviews;
+            //return $reviews;
 
             //array_push($showTourism, 'yayaya');
-            //$showTourism->rating = $reviews;
-            //json_encode($showTourism);
+            $showTourism->rating = $reviews;
+            json_encode($showTourism);
 
             //return json_encode($showTourism);
 
