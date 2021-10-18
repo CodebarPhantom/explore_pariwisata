@@ -83,7 +83,7 @@ class ReviewController extends ApiController
             })            
             ->where('tourism_info_id',$tourismInfoId)
             ->orderBy('created_at',$order)
-            ->paginate(5);
+            ->paginate(10);
 
         } catch (Exception $e) {
             report($e);
@@ -102,7 +102,7 @@ class ReviewController extends ApiController
     {
         try {
             $reviews = Review::with('user','images')
-            ->where('user_id',auth()->user()->id)->paginate(5);
+            ->where('user_id',auth()->user()->id)->paginate(10);
 
         } catch (Exception $e) {
             report($e);
