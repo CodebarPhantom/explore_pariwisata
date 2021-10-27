@@ -1,4 +1,3 @@
-@extends('layouts.auth')
 
 @section('title')
     {{ __('Reset Password') }} | {{ config('app.name') }}

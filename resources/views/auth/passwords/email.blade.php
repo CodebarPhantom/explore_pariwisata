@@ -1,4 +1,3 @@
-@extends('layouts.auth')
 @section('content')
 <div class="kt-login-v1__wrapper">
 	<div class="kt-login-v1__container">

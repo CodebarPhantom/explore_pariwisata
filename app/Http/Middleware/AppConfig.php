@@ -19,7 +19,7 @@ class AppConfig
         /**
          * Config Social Auth
          */
-        $config_facebook = [
+      /*  $config_facebook = [
             'client_id' => setting('facebook_app_id'),
             'client_secret' => setting('facebook_app_secret'),
             'redirect' => route('login_social_callback', 'facebook'),
@@ -30,7 +30,7 @@ class AppConfig
             'redirect' => route('login_social_callback', 'google'),
         ];
         config(['services.facebook' => $config_facebook]);
-        config(['services.google' => $config_google]);
+        config(['services.google' => $config_google]);*/
 
         /**
          * Config SMTP

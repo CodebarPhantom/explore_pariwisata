@@ -184,6 +184,10 @@
 
                                     <form class="form-log form-content" id="login" action="{{route('login')}}" method="POST">
                                         @csrf
+
+                                        <p class="choose-more">Continue with <a title="Facebook" class="fb" href="{{ env('APP_URL').'/redirect/facebook' }}">Facebook</a> or <a title="Google" class="gg" href="{{ env('APP_URL').'/redirect/google' }}">Google</a></p>
+
+			                            <p class="choose-or"><span>Or</span></p>
                                        
                                         <small class="form-text text-danger golo-d-none" id="login_error">error!</small>
                                         <div class="field-input">

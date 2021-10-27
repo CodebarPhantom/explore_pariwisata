@@ -13,6 +13,10 @@
 
 Auth::routes();
 
+$router->get('/redirect/{provider}', 'Auth\LoginController@redirectToProvider');
+
+$router->get('/auth/{provider}/callback', 'Auth\LoginController@handleProviderCallback');
+
 $router->group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
     \UniSharp\LaravelFilemanager\Lfm::routes();
 });
@@ -24,9 +28,14 @@ $router->group([
     'namespace' => 'Frontend',
     'middleware' => []], function () use ($router) {
 
+        
+
     $router->get('/', 'HomeController@index')->name('home');
     $router->get('/language/{locale}', 'HomeController@changeLanguage')->name('change_language');
     $router->get('/search', 'HomeController@search')->name('search');
+
+
+    
 
     $router->get('/blog/all', 'PostController@list')->name('post_list_all');
     $router->get('/blog/{slug}-{id}', 'PostController@detail')
