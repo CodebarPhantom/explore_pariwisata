@@ -31,4 +31,43 @@ class LoginController extends Controller
         }
     }
 
+    public function handleProviderCallback($provider, Request $request)
+    {
+        
+
+        if ($provider == "facebook" && $request->error) {
+            return response(["status" => "error", "message" => $request->error_description], 500);
+        }
+
+        $socialite = Socialite::driver($provider);
+
+        $user = $socialite->userFromToken(request("token"));
+
+        if (!$user->getEmail()) {
+            return response(["status" => "error", "message" => "Please provide your email address."], 500);
+        }
+
+        $member = User::whereEmail($user->getEmail())->first();
+
+        if (!$member) {
+            $member = new User();            
+            $member->name = $user->getName();
+            $member->email = $user->getEmail();
+            $member->save();
+        }
+        
+        
+        
+
+        $token = $member->createToken($provider);
+
+        $result = [
+            'name'=>auth()->user()->name,
+            'email'=>auth()->user()->email,
+            'token' => $token->plainTextToken
+        ];
+
+        return response(compact("result"));
+    }
+
 }

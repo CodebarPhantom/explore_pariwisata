@@ -117,6 +117,7 @@ $router->group([
     Route::namespace('Auth')->group(function () {
         Route::group(['prefix' => 'auth'], function () {
             Route::post('/login', [LoginController::class, 'index']);
+            Route::post('/login/{provider}/callback', [LoginController::class, 'handleProviderCallback']);
             Route::post('/register', [RegisterController::class, 'register']);
             Route::post('/reset-password', [ResetPasswordController::class, 'sendMail']);
 
