@@ -44,11 +44,15 @@ class LoginController extends Controller
 
         $user = $socialite->userFromToken(request("token"));
 
+        
+
         if (!$user->getEmail()) {
             return response(["status" => "error", "message" => "Please provide your email address."], 500);
         }
 
         $member = User::whereEmail($user->getEmail())->first();
+
+      
 
         if (!$member) {
             $member = new User();            
@@ -58,13 +62,12 @@ class LoginController extends Controller
         }
         
         
-        
 
-        $token = $member->createToken($provider);
+        $token = $member->createToken($provider);        
 
         $result = [
-            'name'=>auth()->user()->name,
-            'email'=>auth()->user()->email,
+            'name'=>$member->name,
+            'email'=>$member->email,
             'token' => $token->plainTextToken
         ];
 
