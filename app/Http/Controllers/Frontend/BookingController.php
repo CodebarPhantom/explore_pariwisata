@@ -250,8 +250,8 @@ class BookingController extends Controller
 
                 $details = ['email' => $booking->email, 'subject' => "Ulinyu.id - $booking->tourism_name", 'booking'=>$bookingToEmail ];
                 // SendEmailBookingReceipt::dispatch($details);
-                //$emailJob = (new SendEmailBookingReceiptUnpaid($details))->delay(Carbon::now()->addMinutes(1));
-                //dispatch($emailJob);
+                $emailJob = (new SendEmailBookingReceiptUnpaid($details))->delay(Carbon::now()->addMinutes(1));
+                dispatch($emailJob);
 
                 $data = [
                     'name'=>$name,

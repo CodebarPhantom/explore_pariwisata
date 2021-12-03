@@ -44,7 +44,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\Locale::class,
 
             // Set config social auth
-            \App\Http\Middleware\AppConfig::class,
+            //\App\Http\Middleware\AppConfig::class,
 
             // Check upgrade
             \App\Http\Middleware\CheckUpgrade::class,
