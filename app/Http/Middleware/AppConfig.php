@@ -36,14 +36,14 @@ class AppConfig
          * Config SMTP
          */
         //awas ini smtp bisa nge overide gan
-        /*config(['mail.driver' => setting('mail_driver', 'smtp')]);
-        config(['mail.host' => setting('mail_host', 'smtp.googlemail.com')]);
+        config(['mail.driver' => setting('mail_driver', 'smtp')]);
+        config(['mail.host' => setting('mail_host', 'smtp.bnet.id')]);
         config(['mail.port' => setting('mail_port', '465')]);
         config(['mail.username' => setting('mail_username')]);
         config(['mail.password' => setting('mail_password')]);
         config(['mail.encryption' => setting('mail_encryption', 'ssl')]);
-        config(['mail.from.address' => setting('mail_from_address', 'hello@uxper.co')]);
-        config(['mail.from.name' => setting('mail_from_name', 'uxper')]);*/
+        config(['mail.from.address' => setting('mail_from_address', 'support@ulinyu.id')]);
+        config(['mail.from.name' => setting('mail_from_name', 'System Ulinyu')]);
 
 
         return $next($request);
