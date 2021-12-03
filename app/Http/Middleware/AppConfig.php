@@ -37,13 +37,13 @@ class AppConfig
          */
         //awas ini smtp bisa nge overide gan
         config(['mail.driver' => setting('mail_driver', 'smtp')]);
-        config(['mail.host' => setting('mail_host', 'smtp.bnet.id')]);
-        config(['mail.port' => setting('mail_port', '465')]);
-        config(['mail.username' => setting('mail_username')]);
-        config(['mail.password' => setting('mail_password')]);
-        config(['mail.encryption' => setting('mail_encryption', 'ssl')]);
-        config(['mail.from.address' => setting('mail_from_address', 'support@ulinyu.id')]);
-        config(['mail.from.name' => setting('mail_from_name', 'System Ulinyu')]);
+        config(['mail.host' => 'smtp.bnet.id']);
+        config(['mail.port' => '465']);
+        config(['mail.username' => env('MAIL_USERNAME')]);
+        config(['mail.password' => env('MAIL_PASSWORD')]);
+        config(['mail.encryption' =>  'ssl']);
+        config(['mail.from.address' => 'support@ulinyu.id']);
+        config(['mail.from.name' => 'System Ulinyu']);
 
 
         return $next($request);
